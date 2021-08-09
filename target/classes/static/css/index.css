@@ -1,0 +1,11 @@
+body {
+    background-image: url('../images/17544.jpg');
+    background-position: right;
+    background-repeat: repeat-y;
+    background-color: #cccccc;
+    background-size: cover;
+}
+
+div {
+    width: 100%; height: 100%;
+}

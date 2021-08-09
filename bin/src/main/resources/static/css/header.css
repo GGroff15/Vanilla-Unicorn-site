@@ -1,0 +1,19 @@
+header {
+    background-color: white;
+    padding: 10px 10px;
+    vertical-align: middle;
+}
+
+header a {
+    color: rgb(110, 110, 110);
+}
+
+header div {
+    width: 64px;
+    height: 36px;
+}
+
+.logo {
+    height: 36px;
+    width: 64px;
+}

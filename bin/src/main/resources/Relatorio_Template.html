@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"></meta>
+
+<link rel="icon" href="/images/icon.jpeg"></link>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous"></link>
+
+<link rel="stylesheet" href="/static/css/dashboard.css"></link>
+
+<link rel="preconnect" href="https://fonts.gstatic.com"></link>
+
+</head>
+<body>
+	<h2>Relatório Detalhado</h2>
+	<div class="table-responsive">
+		<table class="table table-striped table-sm">
+			<thead>
+				<tr>
+					<th scope="col">Data</th>
+					<th scope="col">Água (L)</th>
+					<th scope="col">Energia (kW)</th>
+					<th scope="col">Tempo Real de Uso</th>
+					<th scope="col">Meta Tempo de Uso</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="linha : ${dadosRelatorio}">
+					<td th:text="${linha.data}"></td>
+					<td th:text="${linha.agua}"></td>
+					<td th:text="${linha.energia}"></td>
+					<td th:text="${linha.tempoUso}"></td>
+					<td th:text="${linha.tempoMeta}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
