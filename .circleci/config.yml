@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Test
           command: mvn test
-  build:
+  analise-fonte:
     docker:
       - image: 'circleci/openjdk:11-jdk'
     steps:
@@ -30,6 +30,10 @@ jobs:
       - run:
           name: Analyze on SonarCloud
           command: mvn verify sonar:sonar -Dsonar.projectKey=GGroff15_Site
+          
+  orbs:
+    gg-shield: gitguardian/ggshield
+      
 
 workflows:
   # Below is the definition of your workflow.
@@ -38,6 +42,10 @@ workflows:
   # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
   sample: 
     jobs:
-      - build-and-test
-      - build:
+      - gg-shield/scan:
+          name: gg-shield-scan # best practice is to name each orb job
+          base_revision: << pipeline.git.base_revision >>
+          revision: <<pipeline.git.revision>>
+      - analise-fonte:
           context: SonarCloud
+      - build-and-test
