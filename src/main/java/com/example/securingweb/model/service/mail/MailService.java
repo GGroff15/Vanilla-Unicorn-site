@@ -27,6 +27,7 @@ public class MailService {
 	private byte[] byteArquivoAnexo;
 	private String nomeArquivoAnexo;
 	private String corpoConteudoEmail;
+	private Logger logger = Factory
 
 	public void criar() {
 		Properties props = definirPropriedadesJavaMailer();

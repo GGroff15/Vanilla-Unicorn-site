@@ -29,7 +29,6 @@ public class Cadastro {
 		usuarioVO.setCelular(novoUsuario.getCelular());
 		usuarioVO.setComparar(novoUsuario.isComparar());
 		usuarioVO.setEmail(novoUsuario.getEmail());
-		usuarioVO.setHabilitado(novoUsuario.isHabilitado());
 		usuarioVO.setMeta(novoUsuario.getMeta());
 		usuarioVO.setNome(novoUsuario.getNome());
 		usuarioVO.setNotificacaoCelular(novoUsuario.isNotificacaoCelular());

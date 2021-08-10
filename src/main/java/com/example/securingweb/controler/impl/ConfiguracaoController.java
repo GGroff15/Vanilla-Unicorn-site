@@ -43,7 +43,6 @@ public class ConfiguracaoController implements AbstractController {
 		usuarioVO.setCelular(usuario.getCelular());
 		usuarioVO.setComparar(usuario.isComparar());
 		usuarioVO.setEmail(usuario.getEmail());
-		usuarioVO.setHabilitado(usuario.isHabilitado());
 		usuarioVO.setMeta(usuario.getMeta());
 		usuarioVO.setNome(usuario.getNome());
 		usuarioVO.setNotificacaoCelular(usuario.isNotificacaoCelular());

@@ -1,14 +1,8 @@
 package com.example.securingweb.model.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import org.bson.types.ObjectId;
-
-import com.example.securingweb.model.constants.Constants;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class UsuarioDTO implements Serializable {
 
@@ -38,13 +32,6 @@ public class UsuarioDTO implements Serializable {
 	private boolean comparar;
 
 	private int meta;
-
-	private boolean habilitado;
-
-	public UsuarioDTO() {
-		super();
-		this.habilitado = false;
-	}
 
 	public String getNome() {
 		return nome;
@@ -76,31 +63,6 @@ public class UsuarioDTO implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	@Override
-	public String toString() {
-		ObjectMapper mapper = new ObjectMapper();
-		ObjectNode node = mapper.createObjectNode();
-
-		node.put(Constants.ID, get_id().toString());
-		node.put(Constants.USUARIO_NOME, this.nome);
-		node.put(Constants.USUARIO_USERNAME, this.username);
-		node.put(Constants.USUARIO_SENHA, this.senha);
-		node.put(Constants.USUARIO_POTENCIA, this.potencia);
-		node.put(Constants.USUARIO_EMAIL, this.email);
-		node.put(Constants.USUARIO_CELULAR, Objects.toString(this.celular, "celular nao cadastrado"));
-		node.put(Constants.USUARIO_COMPARAR, Objects.toString(this.comparar, "nao comparar consumo"));
-		node.put(Constants.USUARIO_META, Objects.toString(this.meta, "meta não definida"));
-
-		String json = "";
-		try {
-			json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(node);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-
-		return json;
 	}
 
 	public long getPotencia() {
@@ -157,14 +119,6 @@ public class UsuarioDTO implements Serializable {
 
 	public void setNotificacaoEmail(boolean notificacaoEmail) {
 		this.notificacaoEmail = notificacaoEmail;
-	}
-
-	public boolean isHabilitado() {
-		return habilitado;
-	}
-
-	public void setHabilitado(boolean habilitado) {
-		this.habilitado = habilitado;
 	}
 
 }
