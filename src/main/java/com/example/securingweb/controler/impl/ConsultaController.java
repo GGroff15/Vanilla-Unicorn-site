@@ -32,7 +32,7 @@ import com.example.securingweb.model.utils.RelatorioUtils;
 
 @Controller
 @Scope("session")
-public class ConsultaController extends AbstractController {
+public class ConsultaController implements AbstractController {
 
 	@Autowired
 	Consumo consumo;
@@ -59,9 +59,9 @@ public class ConsultaController extends AbstractController {
 		intervalo.setDataInicial(trintaDiasAntes);
 		intervalo.setDataFinal(dataAtual);
 
-		DatasPesquisaVO datas = datasAdapter.converterIntervaloDatasVoParaDatasPesquisaVo(intervalo);
+		DatasPesquisaVO datasConvertidas = datasAdapter.converterIntervaloDatasVoParaDatasPesquisaVo(intervalo);
 
-		this.datas = datas;
+		this.datas = datasConvertidas;
 
 		consumoPeriodo = consumo.consultar(intervalo);
 

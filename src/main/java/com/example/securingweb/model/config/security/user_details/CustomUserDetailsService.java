@@ -1,7 +1,6 @@
-package com.example.securingweb.model.config.security.userDetails;
+package com.example.securingweb.model.config.security.user_details;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -27,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 		UsuarioVO usuario = dao.get(username).get(0);
-		
+
 		List<String> funcoes = new ArrayList<>();
 		funcoes.add("admin");
 
@@ -43,14 +42,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 		return new User(usuario.getUsername(), usuario.getSenha(), enabled, contaNaoExpira, credenciaisNaoExpira,
 				contaNaoBloqueia, getAuthorities(funcoes));
 	}
-	
+
 	private static List<GrantedAuthority> getAuthorities(List<String> funcoes) {
 		List<GrantedAuthority> autorizacoes = new ArrayList<>();
-		
+
 		for (String funcao : funcoes) {
 			autorizacoes.add(new SimpleGrantedAuthority(funcao));
-		}		
-		
+		}
+
 		return autorizacoes;
 	}
 

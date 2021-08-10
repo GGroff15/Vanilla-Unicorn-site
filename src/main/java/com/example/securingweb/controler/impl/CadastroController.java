@@ -20,7 +20,7 @@ import com.example.securingweb.model.exception.UsuarioJaCadastradoException;
 import com.example.securingweb.model.service.cadastro.Cadastro;
 
 @Controller
-public class CadastroController extends AbstractController {
+public class CadastroController implements AbstractController {
 
 	private static final String USUARIO = "usuario";
 	@Autowired

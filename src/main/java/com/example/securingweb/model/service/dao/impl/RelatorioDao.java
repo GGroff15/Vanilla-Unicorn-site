@@ -51,13 +51,13 @@ public class RelatorioDao extends Dao<ConsumoVO, FiltroRelatorio> {
 	}
 
 	@Override
-	public DeleteResult delete(FiltroRelatorio _id) {
-		return null; // nao aplicavel
+	public DeleteResult delete(FiltroRelatorio id) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public UpdateResult update(ConsumoVO t, FiltroRelatorio _id) {
-		return null; // nao aplicavel
+	public UpdateResult update(ConsumoVO t, FiltroRelatorio id) {
+		throw new UnsupportedOperationException();
 	}
 
 }

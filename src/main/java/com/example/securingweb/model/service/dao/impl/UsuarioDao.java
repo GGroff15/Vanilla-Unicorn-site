@@ -60,9 +60,9 @@ public class UsuarioDao extends Dao<UsuarioVO, String> {
 	}
 
 	@Override
-	public DeleteResult delete(String _id) {
+	public DeleteResult delete(String id) {
 		mongoConfig = FactoryMongoConfig.criarConfigCadastro();
-		query = new Query(Criteria.where(Constants.ID).is(_id));
+		query = new Query(Criteria.where(Constants.ID).is(id));
 		return mongoConfig.mongoTemplate().remove(query, "clientes");
 	}
 

@@ -7,6 +7,9 @@ import java.util.Date;
 
 public final class DataUtils {
 
+	private DataUtils() {
+	}
+
 	private static final long TRINTA_DIAS_MILISEGUNDOS = 2592000000L;
 
 	public static long dataAtual() {
@@ -42,6 +45,7 @@ public final class DataUtils {
 
 	public static Date getDataUltimoDiaMes(int mes) {
 		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.MONTH, mes);
 		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 		return calendar.getTime();
 	}

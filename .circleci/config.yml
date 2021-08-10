@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Test
           command: mvn test
-  build:
+  analise-fonte:
     docker:
       - image: 'circleci/openjdk:11-jdk'
     steps:
@@ -39,5 +39,5 @@ workflows:
   sample: 
     jobs:
       - build-and-test
-      - build:
+      - analise-fonte:
           context: SonarCloud

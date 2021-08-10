@@ -66,7 +66,6 @@ public class MailService {
 			Transport.send(message);
 
 		} catch (MessagingException e) {
-			throw new RuntimeException(e);
 		}
 	}
 

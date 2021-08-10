@@ -2,6 +2,9 @@ package com.example.securingweb.model.constants;
 
 public class Constants {
 
+	private Constants() {
+	}
+
 	public static final String ID = "_id";
 	public static final String USUARIO_NOME = "nome";
 	public static final String USUARIO_USERNAME = "username";

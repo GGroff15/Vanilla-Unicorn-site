@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.example.securingweb.controler.AbstractController;
 
 @Controller
-public class LoginController extends AbstractController {
+public class LoginController implements AbstractController {
 
+	@Override
 	@GetMapping("/login")
 	public String carregarPagina(Model model) {
 		return "login";

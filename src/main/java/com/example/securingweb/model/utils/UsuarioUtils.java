@@ -7,6 +7,9 @@ import com.example.securingweb.model.enums.PropriedadeUsuarioEnum;
 
 public class UsuarioUtils {
 
+	private UsuarioUtils() {
+	}
+
 	public static String recuperarDadoUsuario(String propriedade) {
 
 		if (PropriedadeUsuarioEnum.USERNAME.getDescricao().equals(propriedade)) {

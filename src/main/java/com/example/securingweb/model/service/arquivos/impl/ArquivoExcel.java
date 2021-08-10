@@ -1,7 +1,6 @@
 package com.example.securingweb.model.service.arquivos.impl;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -77,8 +76,6 @@ public class ArquivoExcel extends AbstractArquivoService {
 
 			saida = outputStream.toByteArray();
 			outputStream.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

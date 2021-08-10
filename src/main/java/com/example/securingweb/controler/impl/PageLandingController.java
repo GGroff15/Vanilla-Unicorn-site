@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.example.securingweb.controler.AbstractController;
 
 @Controller
-public class PageLandingController extends AbstractController {
+public class PageLandingController implements AbstractController {
 
+	@Override
 	@GetMapping("/")
 	public String carregarPagina(Model model) {
 		return "pageLanding";
 	}
-	
+
 }

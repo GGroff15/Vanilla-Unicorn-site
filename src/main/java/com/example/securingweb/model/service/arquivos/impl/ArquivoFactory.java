@@ -9,16 +9,19 @@ import com.example.securingweb.model.service.arquivos.AbstractArquivoService;
 
 public class ArquivoFactory {
 
+	private ArquivoFactory() {
+	}
+
 	public static AbstractArquivoService create(String dataInicial, String dataFinal, String extensao)
 			throws ExtensaoInvalidaException {
 
-		if (extensao.toLowerCase().equals(ARQUIVO_TIPO_PDF)) {
+		if (extensao.equalsIgnoreCase(ARQUIVO_TIPO_PDF)) {
 			return new ArquivoPDF(dataInicial, dataFinal);
 
-		} else if (extensao.toLowerCase().equals(ARQUIVO_TIPO_CSV)) {
+		} else if (extensao.equalsIgnoreCase(ARQUIVO_TIPO_CSV)) {
 			return new ArquivoCSV(dataInicial, dataFinal);
 
-		} else if (extensao.toLowerCase().equals(ARQUIVO_TIPO_XLXS)) {
+		} else if (extensao.equalsIgnoreCase(ARQUIVO_TIPO_XLXS)) {
 			return new ArquivoExcel(dataInicial, dataFinal);
 
 		}

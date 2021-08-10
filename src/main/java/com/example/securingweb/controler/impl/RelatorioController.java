@@ -29,7 +29,7 @@ public class RelatorioController {
 
 	@GetMapping("/relatorioDiario")
 	public void enviarRelatorioDiario() {
-
+		// Metodo ainda não implementado
 	}
 
 }

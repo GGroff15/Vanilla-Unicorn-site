@@ -13,35 +13,37 @@ import com.example.securingweb.model.entity.UsuarioVO;
 import com.example.securingweb.model.service.cadastro.Cadastro;
 
 @Controller
-public class ConfiguracaoController extends AbstractController {
+public class ConfiguracaoController implements AbstractController {
 
+	private static final String ATRIBUTO_DADOS_USUARIO = "dadosUsuario";
+	private static final String VIEW_CONFIGURACAO = "configuracao";
 	@Autowired
 	Cadastro cadastroService;
 
 	@Override
 	public String carregarPagina(Model model) {
-		return "configuracao";
+		return VIEW_CONFIGURACAO;
 	}
-	
+
 	@GetMapping("/configuracao")
 	public String carregarPagina(Model model, HttpSession session) {
-		
-		UsuarioVO dadosUsurioLogado = (UsuarioVO) session.getAttribute("dadosUsuario");
+
+		UsuarioVO dadosUsurioLogado = (UsuarioVO) session.getAttribute(ATRIBUTO_DADOS_USUARIO);
 		model.addAttribute("usuario", dadosUsurioLogado);
-		
-		return "configuracao";
+
+		return VIEW_CONFIGURACAO;
 	}
-	
+
 	@PostMapping("/configuracao")
 	public String salvar(Model model, HttpSession session, UsuarioVO usuarioVO) {
-		
-		UsuarioVO dadosUsurioLogado = (UsuarioVO) session.getAttribute("dadosUsuario");
+
+		UsuarioVO dadosUsurioLogado = (UsuarioVO) session.getAttribute(ATRIBUTO_DADOS_USUARIO);
 		usuarioVO.setSenha(dadosUsurioLogado.getSenha());
 		cadastroService.atualizarCadastroUsuario(usuarioVO);
-		session.setAttribute("dadosUsuario", usuarioVO);
+		session.setAttribute(ATRIBUTO_DADOS_USUARIO, usuarioVO);
 		model.addAttribute("usuario", usuarioVO);
-		
-		return "configuracao";
+
+		return VIEW_CONFIGURACAO;
 	}
 
 }

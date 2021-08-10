@@ -1,5 +1,7 @@
 package com.example.securingweb.model.helper;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -203,8 +205,14 @@ public class RelatorioMensalHelper {
 		Dao<DicaConsumo, Integer> daoDicaConsumo = FactoryDao.criarDicaConsumoDao();
 		List<DicaConsumo> dicas = daoDicaConsumo.getAll();
 
-		Random random = new Random();
-		int dicaNumero = random.nextInt(dicas.size());
+		Random random;
+		int dicaNumero = 0;
+		try {
+			random = SecureRandom.getInstanceStrong();
+			dicaNumero = random.nextInt(dicas.size());
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 
 		dicaReducaoConsumo = "<p>" + dicas.get(dicaNumero) + "</p>";
 
