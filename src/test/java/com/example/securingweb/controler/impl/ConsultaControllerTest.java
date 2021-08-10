@@ -20,14 +20,6 @@ class ConsultaControllerTest {
 	ConsultaController controller = new ConsultaController();
 
 	@Test
-	void testCarregarPaginaModelHttpSession() {
-	}
-
-	@Test
-	void testBuscar() {
-	}
-
-	@Test
 	void testDownloadRelatorio() {
 		DatasPesquisaVO datas = new DatasPesquisaVO();
 		datas.setDataInicial("10/12/2021");
