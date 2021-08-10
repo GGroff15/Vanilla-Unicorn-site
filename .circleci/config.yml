@@ -29,7 +29,7 @@ jobs:
       - checkout
       - run:
           name: Analyze on SonarCloud
-          command: mvn verify sonar:sonar -Dsonar.projectKey=GGroff15_Site
+          command: mvn verify sonar:sonar -Dsonar.projectKey=GGroff15_Vanilla-Unicorn-site
 
 workflows:
   # Below is the definition of your workflow.
