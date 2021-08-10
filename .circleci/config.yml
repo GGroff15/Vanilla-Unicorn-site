@@ -22,7 +22,14 @@ jobs:
       - run:
           name: Test
           command: mvn test
-
+  build:
+    docker:
+      - image: 'circleci/openjdk:11-jdk'
+    steps:
+      - checkout
+      - run:
+          name: Analyze on SonarCloud
+          command: mvn verify sonar:sonar -Dsonar.projectKey=GGroff15_Site
 
 workflows:
   # Below is the definition of your workflow.
@@ -32,4 +39,5 @@ workflows:
   sample: 
     jobs:
       - build-and-test
-      
+      - build:
+          context: SonarCloud
