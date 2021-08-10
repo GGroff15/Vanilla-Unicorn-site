@@ -1,4 +1,4 @@
-package com.example.securingweb.model.utils;
+package com.example.securingweb.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

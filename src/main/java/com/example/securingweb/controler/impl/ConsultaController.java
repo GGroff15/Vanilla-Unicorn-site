@@ -27,8 +27,8 @@ import com.example.securingweb.model.exception.ExtensaoInvalidaException;
 import com.example.securingweb.model.service.arquivos.AbstractArquivoService;
 import com.example.securingweb.model.service.arquivos.impl.ArquivoFactory;
 import com.example.securingweb.model.service.consumo.Consumo;
-import com.example.securingweb.model.utils.DataUtils;
-import com.example.securingweb.model.utils.RelatorioUtils;
+import com.example.securingweb.utils.DataUtils;
+import com.example.securingweb.utils.RelatorioUtils;
 
 @Controller
 @Scope("session")

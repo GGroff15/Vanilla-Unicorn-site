@@ -1,4 +1,4 @@
-package com.example.securingweb.model.utils;
+package com.example.securingweb.utils;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;

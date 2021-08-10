@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.securingweb.controler.AbstractController;
+import com.example.securingweb.model.entity.UsuarioDTO;
 import com.example.securingweb.model.entity.UsuarioVO;
 import com.example.securingweb.model.service.cadastro.Cadastro;
 
@@ -35,13 +36,27 @@ public class ConfiguracaoController implements AbstractController {
 	}
 
 	@PostMapping("/configuracao")
-	public String salvar(Model model, HttpSession session, UsuarioVO usuarioVO) {
+	public String salvar(Model model, HttpSession session, UsuarioDTO usuario) {
 
-		UsuarioVO dadosUsurioLogado = (UsuarioVO) session.getAttribute(ATRIBUTO_DADOS_USUARIO);
-		usuarioVO.setSenha(dadosUsurioLogado.getSenha());
+		UsuarioVO usuarioVO = new UsuarioVO();
+		usuarioVO.set_id(usuario.get_id());
+		usuarioVO.setCelular(usuario.getCelular());
+		usuarioVO.setComparar(usuario.isComparar());
+		usuarioVO.setEmail(usuario.getEmail());
+		usuarioVO.setHabilitado(usuario.isHabilitado());
+		usuarioVO.setMeta(usuario.getMeta());
+		usuarioVO.setNome(usuario.getNome());
+		usuarioVO.setNotificacaoCelular(usuario.isNotificacaoCelular());
+		usuarioVO.setNotificacaoEmail(usuario.isNotificacaoEmail());
+		usuarioVO.setPotencia(usuario.getPotencia());
+		usuarioVO.setSenha(usuario.getSenha());
+		usuarioVO.setUsername(usuario.getUsername());
+
+		UsuarioDTO dadosUsurioLogado = (UsuarioDTO) session.getAttribute(ATRIBUTO_DADOS_USUARIO);
+		usuario.setSenha(dadosUsurioLogado.getSenha());
 		cadastroService.atualizarCadastroUsuario(usuarioVO);
-		session.setAttribute(ATRIBUTO_DADOS_USUARIO, usuarioVO);
-		model.addAttribute("usuario", usuarioVO);
+		session.setAttribute(ATRIBUTO_DADOS_USUARIO, usuario);
+		model.addAttribute("usuario", usuario);
 
 		return VIEW_CONFIGURACAO;
 	}

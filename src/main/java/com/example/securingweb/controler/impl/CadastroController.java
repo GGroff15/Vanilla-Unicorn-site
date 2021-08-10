@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.securingweb.controler.AbstractController;
 import com.example.securingweb.model.config.event.OnRegistrationCompleteEvent;
+import com.example.securingweb.model.entity.UsuarioDTO;
 import com.example.securingweb.model.entity.UsuarioVO;
 import com.example.securingweb.model.exception.UsuarioJaCadastradoException;
 import com.example.securingweb.model.service.cadastro.Cadastro;
@@ -37,25 +38,25 @@ public class CadastroController implements AbstractController {
 	}
 
 	@PostMapping("/signup")
-	public ModelAndView registrar(@ModelAttribute(USUARIO) @Valid UsuarioVO usuarioVO, Errors errors,
+	public ModelAndView registrar(@ModelAttribute(USUARIO) @Valid UsuarioDTO usuario, Errors errors,
 			HttpServletRequest request) {
 
 		Cadastro cadastro = new Cadastro();
 
 		try {
-			cadastro.cadastrarNovoUsuario(usuarioVO);
+			cadastro.cadastrarNovoUsuario(usuario);
 
 			String url = request.getContextPath();
-			eventPublisher.publishEvent(new OnRegistrationCompleteEvent(usuarioVO, request.getLocale(), url));
+			eventPublisher.publishEvent(new OnRegistrationCompleteEvent(usuario, request.getLocale(), url));
 		} catch (UsuarioJaCadastradoException e) {
-			ModelAndView modelAndView = new ModelAndView("signup", USUARIO, usuarioVO);
+			ModelAndView modelAndView = new ModelAndView("signup", USUARIO, usuario);
 			modelAndView.addObject("message", e);
 			return modelAndView;
 		} catch (RuntimeException e) {
-			return new ModelAndView("erroEmail", USUARIO, usuarioVO);
+			return new ModelAndView("erroEmail", USUARIO, usuario);
 		}
 
-		return new ModelAndView("redirect:/login", USUARIO, usuarioVO);
+		return new ModelAndView("redirect:/login", USUARIO, usuario);
 	}
 
 }

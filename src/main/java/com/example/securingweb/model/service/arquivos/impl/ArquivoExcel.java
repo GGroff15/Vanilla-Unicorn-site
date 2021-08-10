@@ -11,7 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.example.securingweb.model.entity.ConsumoVO;
 import com.example.securingweb.model.service.arquivos.AbstractArquivoService;
-import com.example.securingweb.model.utils.DataUtils;
+import com.example.securingweb.utils.DataUtils;
 
 public class ArquivoExcel extends AbstractArquivoService {
 
@@ -44,7 +44,7 @@ public class ArquivoExcel extends AbstractArquivoService {
 		Cell colunaTituloTempoUso = row.createCell(celula++);
 		colunaTituloTempoUso.setCellValue("Tempo de Uso Real (Minutos)");
 
-		Cell colunaTituloMetaUso = row.createCell(celula++);
+		Cell colunaTituloMetaUso = row.createCell(celula);
 		colunaTituloMetaUso.setCellValue("Meta de tempo de uso (minutos)");
 
 		int linha = 1;
@@ -66,7 +66,7 @@ public class ArquivoExcel extends AbstractArquivoService {
 			Cell colunaTempoUso = row.createCell(celula++);
 			colunaTempoUso.setCellValue(item.getTempoUso());
 
-			Cell colunaMetaUso = row.createCell(celula++);
+			Cell colunaMetaUso = row.createCell(celula);
 			colunaMetaUso.setCellValue(metaUso);
 		}
 

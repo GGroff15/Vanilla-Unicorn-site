@@ -12,7 +12,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.example.securingweb.model.entity.ConsumoVO;
 import com.example.securingweb.model.entity.IntervaloDatasVO;
-import com.example.securingweb.model.utils.DataUtils;
+import com.example.securingweb.utils.DataUtils;
 
 @SpringBootTest
 class ConsumoServiceTest {

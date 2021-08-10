@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.example.securingweb.model.entity.ConsumoVO;
 import com.example.securingweb.model.service.arquivos.AbstractArquivoService;
-import com.example.securingweb.model.utils.DataUtils;
+import com.example.securingweb.utils.DataUtils;
 import com.opencsv.CSVWriter;
 
 public class ArquivoCSV extends AbstractArquivoService {

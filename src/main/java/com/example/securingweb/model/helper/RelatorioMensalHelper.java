@@ -18,10 +18,11 @@ import com.example.securingweb.model.service.arquivos.AbstractArquivoService;
 import com.example.securingweb.model.service.arquivos.impl.ArquivoFactory;
 import com.example.securingweb.model.service.dao.Dao;
 import com.example.securingweb.model.service.dao.impl.FactoryDao;
-import com.example.securingweb.model.utils.DataUtils;
+import com.example.securingweb.utils.DataUtils;
 
 public class RelatorioMensalHelper {
 
+	private static final String WATTS_FECHAMENTO_PARAGRAFO = " Watts</p>";
 	private static final String NO_DIA = "No dia ";
 	private static final String LITROS_E = " Litros e ";
 	private static final String DD_MM_YYYY = "dd-MM-yyyy";
@@ -163,7 +164,7 @@ public class RelatorioMensalHelper {
 		}
 
 		primeiraLinha = "<p>No periodo de " + dataInicial + " á  " + dataFinal + ", o consumo total foi de: "
-				+ totalAgua + LITROS_E + totalEnergia + " Watts</p>";
+				+ totalAgua + LITROS_E + totalEnergia + WATTS_FECHAMENTO_PARAGRAFO;
 
 		if (!diasConsumoAcimaMeta.isEmpty()) {
 
@@ -182,7 +183,7 @@ public class RelatorioMensalHelper {
 
 					builderDetalhediaUsoAcimaMeta.append("<p>" + NO_DIA + consumo.getDia() + " o uso foi de "
 							+ consumo.getTempoUso() + "minutos. Com um consumo de " + consumo.getAgua() + LITROS_E
-							+ consumo.getEnergia() + " Watts</p>");
+							+ consumo.getEnergia() + WATTS_FECHAMENTO_PARAGRAFO);
 				}
 
 				builderDiasUsoAcimaMeta
@@ -197,7 +198,7 @@ public class RelatorioMensalHelper {
 				textoDetalheUsoAcimaMeta = NO_DIA + diasConsumoAcimaMeta.get(0).getDia() + " o uso foi de "
 						+ diasConsumoAcimaMeta.get(0).getTempoUso() + "minutos. Com um consumo de "
 						+ diasConsumoAcimaMeta.get(0).getAgua() + LITROS_E + diasConsumoAcimaMeta.get(0).getEnergia()
-						+ " Watts</p>";
+						+ WATTS_FECHAMENTO_PARAGRAFO;
 			}
 
 		}

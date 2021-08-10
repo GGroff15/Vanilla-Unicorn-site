@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.securingweb.model.entity.UsuarioDTO;
 import com.example.securingweb.model.entity.UsuarioVO;
 import com.example.securingweb.model.exception.UsuarioJaCadastradoException;
 import com.example.securingweb.model.service.dao.Dao;
@@ -15,7 +16,7 @@ public class Cadastro {
 
 	Dao<UsuarioVO, String> dao = FactoryDao.criarUsuarioDao();
 
-	public void cadastrarNovoUsuario(UsuarioVO novoUsuario) throws UsuarioJaCadastradoException {
+	public void cadastrarNovoUsuario(UsuarioDTO novoUsuario) throws UsuarioJaCadastradoException {
 
 		novoUsuario.setSenha(aplicarCriptografia(novoUsuario.getSenha()));
 
@@ -23,7 +24,21 @@ public class Cadastro {
 			throw new UsuarioJaCadastradoException("Nome de usuario ou email já cadastrado!");
 		}
 
-		dao.save(novoUsuario);
+		UsuarioVO usuarioVO = new UsuarioVO();
+		usuarioVO.set_id(novoUsuario.get_id());
+		usuarioVO.setCelular(novoUsuario.getCelular());
+		usuarioVO.setComparar(novoUsuario.isComparar());
+		usuarioVO.setEmail(novoUsuario.getEmail());
+		usuarioVO.setHabilitado(novoUsuario.isHabilitado());
+		usuarioVO.setMeta(novoUsuario.getMeta());
+		usuarioVO.setNome(novoUsuario.getNome());
+		usuarioVO.setNotificacaoCelular(novoUsuario.isNotificacaoCelular());
+		usuarioVO.setNotificacaoEmail(novoUsuario.isNotificacaoEmail());
+		usuarioVO.setPotencia(novoUsuario.getPotencia());
+		usuarioVO.setSenha(novoUsuario.getSenha());
+		usuarioVO.setUsername(novoUsuario.getUsername());
+
+		dao.save(usuarioVO);
 	}
 
 	public void atualizarCadastroUsuario(UsuarioVO usuarioVO) {
@@ -31,7 +46,7 @@ public class Cadastro {
 		dao.update(usuarioVO, usuarioVO.getUsername());
 	}
 
-	public boolean emailOuUsernameExiste(UsuarioVO usuarioVO) {
+	public boolean emailOuUsernameExiste(UsuarioDTO usuarioVO) {
 
 		List<UsuarioVO> usuariosCadastrados = dao.getAll();
 		for (UsuarioVO item : usuariosCadastrados) {
