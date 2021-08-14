@@ -39,7 +39,7 @@ public class ConfiguracaoController implements AbstractController {
 	public String salvar(Model model, HttpSession session, UsuarioDTO usuario) {
 
 		UsuarioVO usuarioVO = new UsuarioVO();
-		usuarioVO.set_id(usuario.get_id());
+		usuarioVO.setId(usuario.getId());
 		usuarioVO.setCelular(usuario.getCelular());
 		usuarioVO.setComparar(usuario.isComparar());
 		usuarioVO.setEmail(usuario.getEmail());

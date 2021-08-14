@@ -37,14 +37,14 @@ class UsuarioDaoTest {
 		Dao<UsuarioVO, String> dao = FactoryDao.criarUsuarioDao();
 
 		UsuarioVO usuario = new UsuarioVO();
-		usuario.set_id(new ObjectId("60d278a37a894d07dd2e5962"));
+		usuario.setId(new ObjectId("60d278a37a894d07dd2e5962"));
 		usuario.setNome("João");
 		usuario.setUsername("joao");
 		usuario.setEmail("joao@domain.com");
 		usuario.setSenha(new BCryptPasswordEncoder().encode("123"));
 		usuario.setNotificacaoEmail(false);
 		UsuarioVO retorno = dao.save(usuario);
-		assertNotEquals(null, retorno.get_id());
+		assertNotEquals(null, retorno.getId());
 	}
 
 	@Test
@@ -52,7 +52,7 @@ class UsuarioDaoTest {
 		Dao<UsuarioVO, String> dao = FactoryDao.criarUsuarioDao();
 
 		UsuarioVO usuario = new UsuarioVO();
-		usuario.set_id(new ObjectId("616661736661736466617366"));
+		usuario.setId(new ObjectId("616661736661736466617366"));
 		usuario.setNome("João");
 		usuario.setUsername("joao");
 		usuario.setEmail("joao@domain.com");

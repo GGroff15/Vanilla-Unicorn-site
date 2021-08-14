@@ -11,7 +11,7 @@ public class UsuarioDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = -5976220206002467857L;
 
-	private ObjectId _id;
+	private ObjectId id;
 
 	private String nome;
 
@@ -97,12 +97,12 @@ public class UsuarioDTO implements Serializable {
 		this.meta = meta;
 	}
 
-	public ObjectId get_id() {
-		return _id;
+	public ObjectId getId() {
+		return id;
 	}
 
-	public void set_id(ObjectId _id) {
-		this._id = _id;
+	public void setId(ObjectId id) {
+		this.id = id;
 	}
 
 	public boolean isNotificacaoCelular() {

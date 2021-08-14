@@ -25,7 +25,7 @@ public class Cadastro {
 		}
 
 		UsuarioVO usuarioVO = new UsuarioVO();
-		usuarioVO.set_id(novoUsuario.get_id());
+		usuarioVO.setId(novoUsuario.getId());
 		usuarioVO.setCelular(novoUsuario.getCelular());
 		usuarioVO.setComparar(novoUsuario.isComparar());
 		usuarioVO.setEmail(novoUsuario.getEmail());
