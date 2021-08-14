@@ -19,6 +19,9 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.example.securingweb.model.service.arquivos.AbstractArquivoService;
 
 public class MailService {
@@ -27,7 +30,7 @@ public class MailService {
 	private byte[] byteArquivoAnexo;
 	private String nomeArquivoAnexo;
 	private String corpoConteudoEmail;
-	private Logger logger = Factory
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	public void criar() {
 		Properties props = definirPropriedadesJavaMailer();
@@ -67,6 +70,7 @@ public class MailService {
 			Transport.send(message);
 
 		} catch (MessagingException e) {
+			logger.error("Erro ao criar email", e);
 		}
 	}
 
