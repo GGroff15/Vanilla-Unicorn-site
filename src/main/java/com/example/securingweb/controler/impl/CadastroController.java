@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.securingweb.controler.AbstractController;
+import com.example.securingweb.controler.IController;
 import com.example.securingweb.model.config.event.OnRegistrationCompleteEvent;
 import com.example.securingweb.model.entity.UsuarioDTO;
 import com.example.securingweb.model.entity.UsuarioVO;
@@ -21,7 +21,7 @@ import com.example.securingweb.model.exception.UsuarioJaCadastradoException;
 import com.example.securingweb.model.service.cadastro.Cadastro;
 
 @Controller
-public class CadastroController implements AbstractController {
+public class CadastroController implements IController {
 
 	private static final String USUARIO = "usuario";
 	@Autowired

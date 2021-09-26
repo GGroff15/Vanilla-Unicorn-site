@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.securingweb.controler.AbstractController;
+import com.example.securingweb.controler.IController;
 
 @Controller
-public class LoginController implements AbstractController {
+public class LoginController implements IController {
 
 	@Override
 	@GetMapping("/login")

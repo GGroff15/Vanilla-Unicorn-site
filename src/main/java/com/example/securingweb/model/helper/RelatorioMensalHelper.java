@@ -15,7 +15,7 @@ import com.example.securingweb.model.entity.FiltroRelatorio;
 import com.example.securingweb.model.entity.IntervaloDatasVO;
 import com.example.securingweb.model.exception.ExtensaoInvalidaException;
 import com.example.securingweb.model.service.arquivos.AbstractArquivoService;
-import com.example.securingweb.model.service.arquivos.impl.ArquivoFactory;
+import com.example.securingweb.model.service.arquivos.impl.ArquivoServiceFactory;
 import com.example.securingweb.model.service.dao.Dao;
 import com.example.securingweb.model.service.dao.impl.FactoryDao;
 import com.example.securingweb.utils.DataUtils;
@@ -100,7 +100,7 @@ public class RelatorioMensalHelper {
 
 	private void criarArquivoPdf() {
 		try {
-			arquivo = ArquivoFactory.create(dataInicial, dataFinal, Constants.ARQUIVO_TIPO_PDF);
+			arquivo = ArquivoServiceFactory.create(dataInicial, dataFinal, Constants.ARQUIVO_TIPO_PDF);
 			arquivo.gerar(consumoIntervalo, meta);
 		} catch (ExtensaoInvalidaException e) {
 			e.printStackTrace();

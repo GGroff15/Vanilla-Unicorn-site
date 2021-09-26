@@ -23,7 +23,7 @@ public class RelatorioUtils {
 			calendar.setTimeInMillis(item.getData());
 
 			relatorioVO.setAgua(item.getAgua());
-			relatorioVO.setEnergia(item.getEnergia());
+			relatorioVO.setEnergia(item.getEnergia() / 24000);
 			relatorioVO.setTempoUso(item.getTempoUso());
 			if (meta != null) {
 				relatorioVO.setTempoMeta(meta); // Obter esse valor dinamicamente com base no usuario logado

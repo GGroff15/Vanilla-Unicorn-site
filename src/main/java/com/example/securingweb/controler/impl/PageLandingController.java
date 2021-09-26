@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.securingweb.controler.AbstractController;
+import com.example.securingweb.controler.IController;
 
 @Controller
-public class PageLandingController implements AbstractController {
+public class PageLandingController implements IController {
 
 	@Override
 	@GetMapping("/")

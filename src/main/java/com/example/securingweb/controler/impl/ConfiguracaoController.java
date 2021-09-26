@@ -8,16 +8,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.securingweb.controler.AbstractController;
+import com.example.securingweb.controler.IController;
 import com.example.securingweb.model.entity.UsuarioDTO;
 import com.example.securingweb.model.entity.UsuarioVO;
 import com.example.securingweb.model.service.cadastro.Cadastro;
 
 @Controller
-public class ConfiguracaoController implements AbstractController {
+public class ConfiguracaoController implements IController {
 
 	private static final String ATRIBUTO_DADOS_USUARIO = "dadosUsuario";
-	private static final String VIEW_CONFIGURACAO = "configuracao";
+	private static final String VIEW_CONFIGURACAO = "dados_conta";
 	@Autowired
 	Cadastro cadastroService;
 

@@ -7,9 +7,9 @@ import static com.example.securingweb.model.constants.Constants.ARQUIVO_TIPO_XLX
 import com.example.securingweb.model.exception.ExtensaoInvalidaException;
 import com.example.securingweb.model.service.arquivos.AbstractArquivoService;
 
-public class ArquivoFactory {
+public class ArquivoServiceFactory {
 
-	private ArquivoFactory() {
+	private ArquivoServiceFactory() {
 	}
 
 	public static AbstractArquivoService create(String dataInicial, String dataFinal, String extensao)
@@ -25,7 +25,6 @@ public class ArquivoFactory {
 			return new ArquivoExcel(dataInicial, dataFinal);
 
 		}
-
 		throw new ExtensaoInvalidaException();
 	}
 

@@ -8,13 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class ConfiguracaoControllerTest {
-	
+
 	@Autowired
 	ConfiguracaoController controller;
 
 	@Test
 	void testCarregarPagina() {
-		assertEquals("configuracao", controller.carregarPagina(null));
+		assertEquals("dados_conta", controller.carregarPagina(null));
 	}
 
 }

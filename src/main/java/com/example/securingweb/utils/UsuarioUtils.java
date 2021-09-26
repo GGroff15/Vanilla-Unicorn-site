@@ -1,8 +1,13 @@
 package com.example.securingweb.utils;
 
+import static com.example.securingweb.model.constants.Constants.DADOS_USUARIO_SESSION;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
+import com.example.securingweb.model.entity.UsuarioVO;
 import com.example.securingweb.model.enums.PropriedadeUsuarioEnum;
 
 public class UsuarioUtils {
@@ -22,6 +27,10 @@ public class UsuarioUtils {
 
 		}
 		return "";
+	}
+
+	public static UsuarioVO recuperarDetalhesUsuario(HttpSession session) {
+		return (UsuarioVO) session.getAttribute(DADOS_USUARIO_SESSION);
 	}
 
 }

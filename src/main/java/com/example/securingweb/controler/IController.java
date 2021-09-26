@@ -2,7 +2,7 @@ package com.example.securingweb.controler;
 
 import org.springframework.ui.Model;
 
-public interface AbstractController {
+public interface IController {
 
 	public String carregarPagina(Model model);
 

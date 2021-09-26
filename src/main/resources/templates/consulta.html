@@ -53,9 +53,10 @@
 				1:{targetAxisIndex: 1}
 			},
 			vAxes: {
-				0: {title: 'Energia (kW)'},
+				0: {title: 'Energia (kW/h)'},
 				1: {title: 'Água (L)'}
 			},
+            height:500
 		};
 
 		// Instantiate and draw our chart, passing in some options.
@@ -73,7 +74,8 @@
 		// Set chart options
 		var options = {
 			'title':"Tempo de uso no periodo (minutos)",
-			pointSize: 5
+			pointSize: 5,
+            height:500
 		};
 
 		// Instantiate and draw our chart, passing in some options.
@@ -96,13 +98,13 @@
 			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<form class="form-control form-control-dark w-100" action="home" method="post"
+		<form class="d-flex" action="home" method="post"
 			th:object="${datas}">
 			<label>Data inicial</label>
 			<input type="date" th:field="*{dataInicial}">
 			<label>Data final</label>
 			<input type="date" th:field="*{dataFinal}">
-			<input type="submit" value="Buscar">
+			<input class="btn btn-outline-success" type="submit" value="Buscar">
 		</form>
 		<div class="navbar-nav">
 			<div class="nav-item text-nowrap">
@@ -119,8 +121,7 @@
 					<ul class="nav flex-column">
 						<li class="nav-item">
 							<a class="nav-link active" aria-current="page" href="/home">
-								<span data-feather="home"></span>
-								Dashboard
+								<span data-feather="home"></span>Dashboard
 							</a>
 						</li>
 						<li class="nav-item">
@@ -155,7 +156,7 @@
 							<tr>
 								<th scope="col">Data</th>
 								<th scope="col">Água (L)</th>
-								<th scope="col">Energia (kW)</th>
+								<th scope="col">Energia (kW/h)</th>
 								<th scope="col">Tempo Real de Uso</th>
 								<th scope="col">Meta Tempo de Uso</th>
 							</tr>

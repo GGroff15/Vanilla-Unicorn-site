@@ -10,7 +10,7 @@ import com.example.securingweb.model.validacoes.anotations.EmailValido;
 
 public class EmailValidator implements ConstraintValidator<EmailValido, String> {
 
-	private static final String EMAIL_PATTERN = "^[A-Z0-9+_.-]+@[A-Z0-9.-]+$";
+	private static final String EMAIL_PATTERN = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
 
 	@Override
 	public void initialize(EmailValido constraintAnnotation) {

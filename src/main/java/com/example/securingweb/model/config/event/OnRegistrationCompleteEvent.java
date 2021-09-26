@@ -24,28 +24,4 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
 		this.url = url;
 	}
 
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public Locale getLocal() {
-		return local;
-	}
-
-	public void setLocal(Locale local) {
-		this.local = local;
-	}
-
-	public UsuarioDTO getUsuarioVO() {
-		return usuarioVO;
-	}
-
-	public void setUsuarioDTO(UsuarioDTO usuarioVO) {
-		this.usuarioVO = usuarioVO;
-	}
-
 }

@@ -16,18 +16,13 @@ import com.example.securingweb.model.service.arquivos.AbstractArquivoService;
 class ArquivoExcelTest {
 
 	@Test
-	void testPopularPlanilha() {
+	void testPopularPlanilha() throws ExtensaoInvalidaException {
 		DatasPesquisaVO datas = new DatasPesquisaVO();
 		datas.setDataInicial("10/12/2021");
 		datas.setDataFinal("30/12/2021");
 
 		AbstractArquivoService arquivo = null;
-		try {
-			arquivo = ArquivoFactory.create(datas.getDataInicial(), datas.getDataFinal(), "xlxs");
-		} catch (ExtensaoInvalidaException e) {
-			e.printStackTrace();
-		}
-
+		arquivo = ArquivoServiceFactory.create(datas.getDataInicial(), datas.getDataFinal(), "xlxs");
 		List<ConsumoVO> consumoVOs = new ArrayList<ConsumoVO>();
 
 		ConsumoVO item = new ConsumoVO();
