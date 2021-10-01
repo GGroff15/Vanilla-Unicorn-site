@@ -24,7 +24,7 @@ jobs:
           command: mvn test
   analise-fonte:
     docker:
-      - image: 'circleci/openjdk:1.8-jdk'
+      - image: 'circleci/openjdk:8-jdk'
     steps:
       - checkout
       - run:
