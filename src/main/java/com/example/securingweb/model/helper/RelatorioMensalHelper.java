@@ -1,5 +1,7 @@
 package com.example.securingweb.model.helper;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,13 +15,14 @@ import com.example.securingweb.model.entity.FiltroRelatorio;
 import com.example.securingweb.model.entity.IntervaloDatasVO;
 import com.example.securingweb.model.exception.ExtensaoInvalidaException;
 import com.example.securingweb.model.service.arquivos.AbstractArquivoService;
-import com.example.securingweb.model.service.arquivos.impl.ArquivoFactory;
+import com.example.securingweb.model.service.arquivos.impl.ArquivoServiceFactory;
 import com.example.securingweb.model.service.dao.Dao;
 import com.example.securingweb.model.service.dao.impl.FactoryDao;
-import com.example.securingweb.model.utils.DataUtils;
+import com.example.securingweb.utils.DataUtils;
 
 public class RelatorioMensalHelper {
 
+	private static final String WATTS_FECHAMENTO_PARAGRAFO = " Watts</p>";
 	private static final String NO_DIA = "No dia ";
 	private static final String LITROS_E = " Litros e ";
 	private static final String DD_MM_YYYY = "dd-MM-yyyy";
@@ -97,7 +100,7 @@ public class RelatorioMensalHelper {
 
 	private void criarArquivoPdf() {
 		try {
-			arquivo = ArquivoFactory.create(dataInicial, dataFinal, Constants.ARQUIVO_TIPO_PDF);
+			arquivo = ArquivoServiceFactory.create(dataInicial, dataFinal, Constants.ARQUIVO_TIPO_PDF);
 			arquivo.gerar(consumoIntervalo, meta);
 		} catch (ExtensaoInvalidaException e) {
 			e.printStackTrace();
@@ -161,7 +164,7 @@ public class RelatorioMensalHelper {
 		}
 
 		primeiraLinha = "<p>No periodo de " + dataInicial + " á  " + dataFinal + ", o consumo total foi de: "
-				+ totalAgua + LITROS_E + totalEnergia + " Watts</p>";
+				+ totalAgua + LITROS_E + totalEnergia + WATTS_FECHAMENTO_PARAGRAFO;
 
 		if (!diasConsumoAcimaMeta.isEmpty()) {
 
@@ -180,7 +183,7 @@ public class RelatorioMensalHelper {
 
 					builderDetalhediaUsoAcimaMeta.append("<p>" + NO_DIA + consumo.getDia() + " o uso foi de "
 							+ consumo.getTempoUso() + "minutos. Com um consumo de " + consumo.getAgua() + LITROS_E
-							+ consumo.getEnergia() + " Watts</p>");
+							+ consumo.getEnergia() + WATTS_FECHAMENTO_PARAGRAFO);
 				}
 
 				builderDiasUsoAcimaMeta
@@ -195,7 +198,7 @@ public class RelatorioMensalHelper {
 				textoDetalheUsoAcimaMeta = NO_DIA + diasConsumoAcimaMeta.get(0).getDia() + " o uso foi de "
 						+ diasConsumoAcimaMeta.get(0).getTempoUso() + "minutos. Com um consumo de "
 						+ diasConsumoAcimaMeta.get(0).getAgua() + LITROS_E + diasConsumoAcimaMeta.get(0).getEnergia()
-						+ " Watts</p>";
+						+ WATTS_FECHAMENTO_PARAGRAFO;
 			}
 
 		}
@@ -203,8 +206,14 @@ public class RelatorioMensalHelper {
 		Dao<DicaConsumo, Integer> daoDicaConsumo = FactoryDao.criarDicaConsumoDao();
 		List<DicaConsumo> dicas = daoDicaConsumo.getAll();
 
-		Random random = new Random();
-		int dicaNumero = random.nextInt(dicas.size());
+		Random random;
+		int dicaNumero = 0;
+		try {
+			random = SecureRandom.getInstanceStrong();
+			dicaNumero = random.nextInt(dicas.size());
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 
 		dicaReducaoConsumo = "<p>" + dicas.get(dicaNumero) + "</p>";
 

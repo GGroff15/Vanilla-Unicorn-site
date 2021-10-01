@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,17 +33,20 @@
 	});
 
 	// Set a callback to run when the Google Visualization API is loaded.
-	google.charts.setOnLoadCallback(drawChart_consumo); // Carrega o grafico de consumo no periodo
-	google.charts.setOnLoadCallback(drawChart_uso); // Carrega o grafico de tempo de uso
+	google.charts.setOnLoadCallback(drawChart_consumo1); // Carrega o grafico de consumo1 no periodo
+	google.charts.setOnLoadCallback(drawChart_uso1); // Carrega o grafico de tempo de uso1
+	
+	google.charts.setOnLoadCallback(drawChart_consumo2); // Carrega o grafico de consumo2 no periodo
+	google.charts.setOnLoadCallback(drawChart_uso2); // Carrega o grafico de tempo2 de uso
 
 	// Callback that creates and populates a data table,
 	// instantiates the pie chart, passes in the data and
 	// draws it.
-	function drawChart_consumo() {
+	function drawChart_consumo1() {
 
 		// Create the data table.
 		var data = new google.visualization.arrayToDataTable(
-				/*[[${dadosGraficoConsumo}]]*/ );
+				/*[[${dadosGraficoConsumo1}]]*/ );
 
 		// Set chart options
 		var options = {
@@ -65,11 +68,11 @@
 
 	}
 	
-	function drawChart_uso() {
+	function drawChart_uso1() {
 
 		// Create the data table.
 		var data = new google.visualization.arrayToDataTable(
-				/*[[${dadosGraficoUso}]]*/ );
+				/*[[${dadosGraficoUso1}]]*/ );
 
 		// Set chart options
 		var options = {
@@ -85,6 +88,51 @@
 	feather.replace()
 	}
 	
+	function drawChart_consumo2() {
+
+		// Create the data table.
+		var data = new google.visualization.arrayToDataTable(
+				/*[[${dadosGraficoConsumo2}]]*/ );
+
+		// Set chart options
+		var options = {
+			'title':"Consumo no periodo",
+			series: {
+				0:{targetAxisIndex: 0},
+				1:{targetAxisIndex: 1}
+			},
+			vAxes: {
+				0: {title: 'Energia (kW/h)'},
+				1: {title: 'Água (L)'}
+			},
+            height:500
+		};
+
+		// Instantiate and draw our chart, passing in some options.
+		var chart = new google.visualization.ColumnChart(document.getElementById('chart_div_3'));
+		chart.draw(data, options);
+
+	}
+	
+	function drawChart_uso2() {
+
+		// Create the data table.
+		var data = new google.visualization.arrayToDataTable(
+				/*[[${dadosGraficoUso2}]]*/ );
+
+		// Set chart options
+		var options = {
+			'title':"Tempo de uso no periodo (minutos)",
+			pointSize: 5,
+            height:500
+		};
+
+		// Instantiate and draw our chart, passing in some options.
+		var chart = new google.visualization.LineChart(document.getElementById('chart_div_4'));
+		chart.draw(data, options);
+
+	}
+	
 </script>
 
 </head>
@@ -98,12 +146,19 @@
 			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<form class="d-flex" action="home" method="post"
+		<form class="d-flex" action="comparar" method="post"
 			th:object="${datas}">
+			<label>Periodo 1</label>
 			<label>Data inicial</label>
-			<input type="date" th:field="*{dataInicial}">
+			<input type="date" th:field="*{dataInicial1}">
 			<label>Data final</label>
-			<input type="date" th:field="*{dataFinal}">
+			<input type="date" th:field="*{dataFinal1}">
+			
+			<label>Periodo 2</label>
+			<label>Data inicial</label>
+			<input type="date" th:field="*{dataInicial2}">
+			<label>Data final</label>
+			<input type="date" th:field="*{dataFinal2}">
 			<input class="btn btn-outline-success" type="submit" value="Buscar">
 		</form>
 		<div class="navbar-nav">
@@ -145,8 +200,14 @@
 				</div>
 
 				<div class="row mb-3">
+					<h4>Periodo 1</h4>
 					<div class="my-4 w-100 col-md" id="chart_div_1"></div>
 					<div class="my-4 w-100 col-md" id="chart_div_2"></div>
+				</div>
+				<div class="row mb-3">
+					<h4>Periodo 2</h4>
+					<div class="my-4 w-100 col-md" id="chart_div_3"></div>
+					<div class="my-4 w-100 col-md" id="chart_div_4"></div>
 				</div>
 
 				<h2>Relatório Detalhado</h2>

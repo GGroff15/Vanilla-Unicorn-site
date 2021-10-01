@@ -8,20 +8,20 @@ import com.example.securingweb.model.config.mongo_db.MongoConfig;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
-public abstract class Dao<T, Type> {
-	
+public abstract class Dao<T, M> {
+
 	protected MongoConfig mongoConfig;
-	
+
 	protected Query query;
-	
-	public abstract List<T> get(Type filtro);
-	
+
+	public abstract List<T> get(M filtro);
+
 	public abstract List<T> getAll();
-	
+
 	public abstract T save(T t);
-	
-	public abstract UpdateResult update(T t, Type _id);
-	
-	public abstract DeleteResult delete(Type _id);
+
+	public abstract UpdateResult update(T t, M _id);
+
+	public abstract DeleteResult delete(M _id);
 
 }

@@ -27,4 +27,5 @@ public class FactoryDao {
 	public static Dao<DicaConsumo, Integer> criarDicaConsumoDao() {
 		return new DicaConsumoDao();
 	}
+
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.securingweb.model.entity.DatasPesquisaVO;
 import com.example.securingweb.model.entity.IntervaloDatasVO;
-import com.example.securingweb.model.utils.DataUtils;
+import com.example.securingweb.utils.DataUtils;
 
 /**
  * Metodos de conversao da classe VO DatasPesquisaVO para IntervaloDatasVO e

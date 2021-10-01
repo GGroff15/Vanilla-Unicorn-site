@@ -17,7 +17,7 @@ public abstract class AbstractArquivoService {
 	 * @param extensao    do arquivo que será criado (ex: csv)
 	 *                    </p>
 	 */
-	public AbstractArquivoService(String dataInicial, String dataFinal, String extensao) {
+	protected AbstractArquivoService(String dataInicial, String dataFinal, String extensao) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("relatorio_consumo_perido_");
 		builder.append(dataInicial);

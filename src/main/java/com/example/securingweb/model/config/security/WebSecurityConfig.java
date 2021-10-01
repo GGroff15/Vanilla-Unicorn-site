@@ -20,7 +20,7 @@ import com.example.securingweb.model.config.security.handler.CustomAccessDeniedH
 import com.example.securingweb.model.config.security.handler.CustomAuthenticationFailureHandler;
 import com.example.securingweb.model.config.security.handler.CustomAuthenticationSuccessHandler;
 import com.example.securingweb.model.config.security.handler.CustomLogoutSuccessHandler;
-import com.example.securingweb.model.config.security.userDetails.CustomUserDetailsService;
+import com.example.securingweb.model.config.security.user_details.CustomUserDetailsService;
 import com.example.securingweb.model.entity.UsuarioVO;
 import com.example.securingweb.model.service.dao.Dao;
 import com.example.securingweb.model.service.dao.impl.FactoryDao;

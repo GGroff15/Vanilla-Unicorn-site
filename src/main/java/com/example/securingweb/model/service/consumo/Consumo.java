@@ -17,6 +17,8 @@ import com.example.securingweb.model.service.dao.impl.FactoryDao;
 @Component
 public class Consumo {
 
+	private static final int DIVISOR_PARA_KILO = 1000;
+	private static final int NUMERO_HORAS_DO_DIA = 24;
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	Calendar calendar = Calendar.getInstance();
 
@@ -30,9 +32,10 @@ public class Consumo {
 	public List<Object> converterDadosGraficoConsumo(List<ConsumoVO> consumoPeriodo) {
 		List<Object> dadosGrafico = new ArrayList<>();
 		dadosGrafico.add(Arrays.asList("Data", "Energia (kW)", "Água (L)"));
+
 		for (ConsumoVO item : consumoPeriodo) {
 			calendar.setTimeInMillis(item.getData());
-			List<Object> coluna = Arrays.asList(dateFormat.format(calendar.getTime()), item.getEnergia(),
+			List<Object> coluna = Arrays.asList(dateFormat.format(calendar.getTime()), calcularKiloWattHora(item),
 					item.getAgua());
 
 			dadosGrafico.add(coluna);
@@ -78,7 +81,7 @@ public class Consumo {
 			calendar.setTimeInMillis(item.getData());
 
 			relatorioVO.setAgua(item.getAgua());
-			relatorioVO.setEnergia(item.getEnergia());
+			relatorioVO.setEnergia(calcularKiloWattHora(item));
 			relatorioVO.setTempoUso(item.getTempoUso());
 			if (meta != null) {
 				relatorioVO.setTempoMeta(meta); // Obter esse valor dinamicamente com base no usuario logado
@@ -89,6 +92,10 @@ public class Consumo {
 		}
 
 		return dadosRelatorio;
+	}
+
+	private double calcularKiloWattHora(ConsumoVO item) {
+		return item.getEnergia() / (NUMERO_HORAS_DO_DIA * DIVISOR_PARA_KILO);
 	}
 
 }

@@ -13,7 +13,7 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import com.example.securingweb.model.entity.ConsumoVO;
 import com.example.securingweb.model.entity.RelatorioVO;
 import com.example.securingweb.model.service.arquivos.AbstractArquivoService;
-import com.example.securingweb.model.utils.RelatorioUtils;
+import com.example.securingweb.utils.RelatorioUtils;
 import com.lowagie.text.DocumentException;
 
 public class ArquivoPDF extends AbstractArquivoService {

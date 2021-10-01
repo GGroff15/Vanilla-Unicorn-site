@@ -1,8 +1,8 @@
 package com.example.securingweb.controler.impl;
 
 import static com.example.securingweb.model.constants.Constants.ARQUIVO_TIPO_PDF;
-import static com.example.securingweb.model.constants.Constants.DADOS_USUARIO_SESSION;
 
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,7 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.securingweb.controler.AbstractController;
+import com.example.securingweb.controler.IController;
 import com.example.securingweb.model.adapter.DatasAdapter;
 import com.example.securingweb.model.entity.ConsumoVO;
 import com.example.securingweb.model.entity.DatasPesquisaVO;
@@ -25,14 +25,15 @@ import com.example.securingweb.model.entity.RelatorioVO;
 import com.example.securingweb.model.entity.UsuarioVO;
 import com.example.securingweb.model.exception.ExtensaoInvalidaException;
 import com.example.securingweb.model.service.arquivos.AbstractArquivoService;
-import com.example.securingweb.model.service.arquivos.impl.ArquivoFactory;
+import com.example.securingweb.model.service.arquivos.impl.ArquivoServiceFactory;
 import com.example.securingweb.model.service.consumo.Consumo;
-import com.example.securingweb.model.utils.DataUtils;
-import com.example.securingweb.model.utils.RelatorioUtils;
+import com.example.securingweb.utils.DataUtils;
+import com.example.securingweb.utils.RelatorioUtils;
+import com.example.securingweb.utils.UsuarioUtils;
 
 @Controller
 @Scope("session")
-public class ConsultaController extends AbstractController {
+public class ConsultaController implements IController {
 
 	@Autowired
 	Consumo consumo;
@@ -44,7 +45,6 @@ public class ConsultaController extends AbstractController {
 	List<Object> dadosGraficoConsumo;
 	List<Object> dadosGraficoUso;
 	List<RelatorioVO> dadosRelatorio;
-
 	private DatasPesquisaVO datas;
 
 	@GetMapping("/home")
@@ -54,16 +54,18 @@ public class ConsultaController extends AbstractController {
 		Long dataAtual = DataUtils.dataAtual();
 		Long trintaDiasAntes = DataUtils.trintaDiasAntes(dataAtual);
 
-		UsuarioVO usuarioVO = recuperarDetalhesUsuario(session);
+		UsuarioVO usuarioVO = UsuarioUtils.recuperarDetalhesUsuario(session);
 
 		intervalo.setDataInicial(trintaDiasAntes);
 		intervalo.setDataFinal(dataAtual);
 
-		DatasPesquisaVO datas = datasAdapter.converterIntervaloDatasVoParaDatasPesquisaVo(intervalo);
+		DatasPesquisaVO datasConvertidas = datasAdapter.converterIntervaloDatasVoParaDatasPesquisaVo(intervalo);
 
-		this.datas = datas;
+		this.datas = datasConvertidas;
 
 		consumoPeriodo = consumo.consultar(intervalo);
+
+		consumoPeriodo.sort(Comparator.comparing(ConsumoVO::getData));
 
 		dadosGraficoConsumo = consumo.converterDadosGraficoConsumo(consumoPeriodo);
 		model.addAttribute("dadosGraficoConsumo", dadosGraficoConsumo);
@@ -87,7 +89,7 @@ public class ConsultaController extends AbstractController {
 
 		IntervaloDatasVO intervaloDatasVO = datasAdapter.converterDatasPesquisaVoParaIntervaloDatasVo(datas);
 
-		UsuarioVO usuarioVO = recuperarDetalhesUsuario(session);
+		UsuarioVO usuarioVO = UsuarioUtils.recuperarDetalhesUsuario(session);
 
 		consumoPeriodo = consumo.consultar(intervaloDatasVO);
 
@@ -107,7 +109,7 @@ public class ConsultaController extends AbstractController {
 
 	@GetMapping("/download")
 	public HttpEntity<byte[]> downloadRelatorio(HttpSession session) {
-		UsuarioVO usuarioVO = recuperarDetalhesUsuario(session);
+		UsuarioVO usuarioVO = UsuarioUtils.recuperarDetalhesUsuario(session);
 		AbstractArquivoService arquivo = criarArquivoFactory();
 		byte[] arquivoBytes = criarRelatorioConsumo(usuarioVO, arquivo);
 		return criarResponse(arquivo, arquivoBytes);
@@ -136,15 +138,11 @@ public class ConsultaController extends AbstractController {
 	private AbstractArquivoService criarArquivoFactory() {
 		AbstractArquivoService arquivo = null;
 		try {
-			arquivo = ArquivoFactory.create(datas.getDataInicial(), datas.getDataFinal(), ARQUIVO_TIPO_PDF);
+			arquivo = ArquivoServiceFactory.create(datas.getDataInicial(), datas.getDataFinal(), ARQUIVO_TIPO_PDF);
 		} catch (ExtensaoInvalidaException e) {
 			e.printStackTrace();
 		}
 		return arquivo;
-	}
-
-	private UsuarioVO recuperarDetalhesUsuario(HttpSession session) {
-		return (UsuarioVO) session.getAttribute(DADOS_USUARIO_SESSION);
 	}
 
 	@Override

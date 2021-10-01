@@ -19,7 +19,7 @@ public class ConsumoVO implements Serializable {
 	private static final long serialVersionUID = 1665652184757036842L;
 
 	@Id
-	private ObjectId _id;
+	private ObjectId id;
 	private Double agua;
 	private Double energia;
 	private Long data;
@@ -34,7 +34,7 @@ public class ConsumoVO implements Serializable {
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode node = mapper.createObjectNode();
 
-		node.put(Constants.ID, get_id().toString());
+		node.put(Constants.ID, getId().toString());
 		node.put(Constants.CONSUMO_AGUA, Objects.toString(this.agua, "NaN"));
 		node.put(Constants.CONSUMO_ENERGIA, Objects.toString(this.energia, "NaN"));
 		node.put(Constants.CONSUMO_DATA, this.data);
@@ -53,12 +53,12 @@ public class ConsumoVO implements Serializable {
 		return json;
 	}
 
-	public ObjectId get_id() {
-		return _id;
+	public ObjectId getId() {
+		return id;
 	}
 
-	public void set_id(ObjectId _id) {
-		this._id = _id;
+	public void setId(ObjectId id) {
+		this.id = id;
 	}
 
 	public Double getAgua() {

@@ -14,7 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
-	
+
 	public static final Logger LOG = LoggerFactory.getLogger(CustomAccessDeniedHandler.class);
 
 	@Override
@@ -22,7 +22,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-			LOG.warn("User: " + auth.getName() + " attempted to access the protected URL: " + request.getRequestURI());
+			LOG.warn("User {} attempted to access the protected URL: {}", auth.getName(), request.getRequestURI());
 		}
 
 		response.sendRedirect(request.getContextPath() + "/accessDenied");

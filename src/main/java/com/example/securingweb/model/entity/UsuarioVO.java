@@ -26,42 +26,42 @@ public class UsuarioVO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -5976220206002467857L;
-	
+
 	@Id
-	private ObjectId _id;
-	
+	private ObjectId id;
+
 	@NotEmpty
 	@NotNull
 	private String nome;
-	
+
 	@NotEmpty
 	@NotNull
 	private String username;
-	
+
 	@NotEmpty
 	@NotNull
 	private String senha;
-	
+
 	@EmailValido
 	@NotEmpty
 	@NotNull
 	private String email;
-	
+
 	private long potencia;
-	
+
 	private long celular;
-	
+
 	private boolean notificacaoCelular;
-	
+
 	private boolean notificacaoEmail;
-	
+
 	private boolean comparar;
-	
+
 	private int meta;
-	
+
 	@Column(name = "habilitado")
 	private boolean habilitado;
-	
+
 	public UsuarioVO() {
 		super();
 		this.habilitado = false;
@@ -104,7 +104,7 @@ public class UsuarioVO implements Serializable {
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode node = mapper.createObjectNode();
 
-		node.put(Constants.ID, get_id().toString());
+		node.put(Constants.ID, getId().toString());
 		node.put(Constants.USUARIO_NOME, this.nome);
 		node.put(Constants.USUARIO_USERNAME, this.username);
 		node.put(Constants.USUARIO_SENHA, this.senha);
@@ -120,7 +120,7 @@ public class UsuarioVO implements Serializable {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		
+
 		return json;
 	}
 
@@ -156,12 +156,12 @@ public class UsuarioVO implements Serializable {
 		this.meta = meta;
 	}
 
-	public ObjectId get_id() {
-		return _id;
+	public ObjectId getId() {
+		return id;
 	}
 
-	public void set_id(ObjectId _id) {
-		this._id = _id;
+	public void setId(ObjectId id) {
+		this.id = id;
 	}
 
 	public boolean isNotificacaoCelular() {

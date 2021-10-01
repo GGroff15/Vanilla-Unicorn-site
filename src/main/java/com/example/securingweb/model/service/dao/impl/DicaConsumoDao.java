@@ -31,12 +31,12 @@ public class DicaConsumoDao extends Dao<DicaConsumo, Integer> {
 	}
 
 	@Override
-	public UpdateResult update(DicaConsumo t, Integer _id) {
+	public UpdateResult update(DicaConsumo t, Integer id) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public DeleteResult delete(Integer _id) {
+	public DeleteResult delete(Integer id) {
 		throw new UnsupportedOperationException();
 	}
 

@@ -14,7 +14,7 @@ import com.example.securingweb.model.entity.ConsumoVO;
 import com.example.securingweb.model.entity.IntervaloDatasVO;
 import com.example.securingweb.model.enums.PropriedadeUsuarioEnum;
 import com.example.securingweb.model.service.dao.Dao;
-import com.example.securingweb.model.utils.UsuarioUtils;
+import com.example.securingweb.utils.UsuarioUtils;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
