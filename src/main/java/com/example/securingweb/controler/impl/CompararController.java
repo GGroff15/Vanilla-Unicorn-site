@@ -1,5 +1,6 @@
 package com.example.securingweb.controler.impl;
 
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -70,6 +71,7 @@ public class CompararController implements IController {
 		datasPeriodos.setDataFinal2(datasConvertidas.getDataFinal());
 
 		consumoPeriodo1 = consumo.consultar(intervalo);
+		consumoPeriodo1.sort(Comparator.comparing(ConsumoVO::getData));
 		dadosGraficoConsumo1 = consumo.converterDadosGraficoConsumo(consumoPeriodo1);
 		dadosGraficoUso1 = consumo.converterDadosGraficoUso(consumoPeriodo1, usuarioVO.getMeta());
 		dadosRelatorio1 = RelatorioUtils.converterDadosRelatorio(consumoPeriodo1, usuarioVO.getMeta());
@@ -79,6 +81,7 @@ public class CompararController implements IController {
 		model.addAttribute(DADOS_RELATORIO + 1, dadosRelatorio1);
 
 		consumoPeriodo2 = consumo.consultar(intervalo);
+		consumoPeriodo2.sort(Comparator.comparing(ConsumoVO::getData));
 		dadosGraficoConsumo2 = consumo.converterDadosGraficoConsumo(consumoPeriodo2);
 		dadosGraficoUso2 = consumo.converterDadosGraficoUso(consumoPeriodo2, usuarioVO.getMeta());
 		dadosRelatorio2 = RelatorioUtils.converterDadosRelatorio(consumoPeriodo2, usuarioVO.getMeta());

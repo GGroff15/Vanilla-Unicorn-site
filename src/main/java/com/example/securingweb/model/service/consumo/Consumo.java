@@ -35,8 +35,7 @@ public class Consumo {
 
 		for (ConsumoVO item : consumoPeriodo) {
 			calendar.setTimeInMillis(item.getData());
-			List<Object> coluna = Arrays.asList(dateFormat.format(calendar.getTime()), calcularKiloWattHora(item),
-					item.getAgua());
+			List<Object> coluna = Arrays.asList(getDataConsumo(), calcularKiloWattHora(item), item.getAgua());
 
 			dadosGrafico.add(coluna);
 		}
@@ -47,29 +46,61 @@ public class Consumo {
 	public List<Object> converterDadosGraficoUso(List<ConsumoVO> consumoPeriodo, Integer meta) {
 		List<Object> dadosGrafico = new ArrayList<>();
 
-		if (meta == null || meta == 0) {
-
-			dadosGrafico.add(Arrays.asList("Data", "Real"));
-			for (ConsumoVO item : consumoPeriodo) {
-				calendar.setTimeInMillis(item.getData());
-				List<Object> coluna = Arrays.asList(dateFormat.format(calendar.getTime()), item.getTempoUso());
-
-				dadosGrafico.add(coluna);
-			}
-
+		if (isMetaNula(meta)) {
+			dadosGrafico.add(tituloColunasSemMeta());
+			dadosUsoSemMeta(consumoPeriodo, dadosGrafico);
 		} else {
-
-			dadosGrafico.add(Arrays.asList("Data", "Real", "Meta"));
-			for (ConsumoVO item : consumoPeriodo) {
-				calendar.setTimeInMillis(item.getData());
-				List<Object> coluna = Arrays.asList(dateFormat.format(calendar.getTime()), item.getTempoUso(), meta);
-
-				dadosGrafico.add(coluna);
-			}
-
+			dadosGrafico.add(tituloColunasComMeta());
+			dadosUsoComMeta(consumoPeriodo, meta, dadosGrafico);
 		}
-
 		return dadosGrafico;
+	}
+
+	private void dadosUsoSemMeta(List<ConsumoVO> consumoPeriodo, List<Object> dadosGrafico) {
+		for (ConsumoVO item : consumoPeriodo) {
+			calendar.setTimeInMillis(item.getData());
+			List<Object> coluna = Arrays.asList(getDataConsumo(), getTempoUso(item),
+					calcularMediaTempoUso(consumoPeriodo));
+			dadosGrafico.add(coluna);
+		}
+	}
+
+	private void dadosUsoComMeta(List<ConsumoVO> consumoPeriodo, Integer meta, List<Object> dadosGrafico) {
+		for (ConsumoVO item : consumoPeriodo) {
+			calendar.setTimeInMillis(item.getData());
+			List<Object> coluna = Arrays.asList(getDataConsumo(), getTempoUso(item),
+					calcularMediaTempoUso(consumoPeriodo), meta);
+			dadosGrafico.add(coluna);
+		}
+	}
+
+	private List<String> tituloColunasComMeta() {
+		return Arrays.asList("Data", "Real", "Media", "Meta");
+	}
+
+	private List<String> tituloColunasSemMeta() {
+		return Arrays.asList("Data", "Real", "Media");
+	}
+
+	private boolean isMetaNula(Integer meta) {
+		return meta == null || meta == 0;
+	}
+
+	private int calcularMediaTempoUso(List<ConsumoVO> consumoPeriodo) {
+		int tempoTotalPeriodo = 0;
+		for (ConsumoVO consumoDia : consumoPeriodo) {
+			tempoTotalPeriodo = tempoTotalPeriodo + getTempoUso(consumoDia);
+		}
+		int mediaTempoUso = tempoTotalPeriodo / consumoPeriodo.size();
+		return mediaTempoUso;
+	}
+
+	private int getTempoUso(ConsumoVO item) {
+		return item.getTempoUso();
+	}
+
+	private String getDataConsumo() {
+		return dateFormat.format(calendar.getTime());
 	}
 
 	public List<RelatorioVO> converterDadosRelatorio(List<ConsumoVO> consumoPeriodo, Integer meta) {
@@ -82,11 +113,11 @@ public class Consumo {
 
 			relatorioVO.setAgua(item.getAgua());
 			relatorioVO.setEnergia(calcularKiloWattHora(item));
-			relatorioVO.setTempoUso(item.getTempoUso());
+			relatorioVO.setTempoUso(getTempoUso(item));
 			if (meta != null) {
 				relatorioVO.setTempoMeta(meta); // Obter esse valor dinamicamente com base no usuario logado
 			}
-			relatorioVO.setData(dateFormat.format(calendar.getTime()));
+			relatorioVO.setData(getDataConsumo());
 
 			dadosRelatorio.add(relatorioVO);
 		}
