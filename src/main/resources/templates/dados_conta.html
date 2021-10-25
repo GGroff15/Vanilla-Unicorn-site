@@ -40,9 +40,9 @@
 </style>
 
 <script th:inline="javascript"
-		src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
-		integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
-		crossorigin="anonymous"></script>
+	src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
+	integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
+	crossorigin="anonymous"></script>
 
 <script type="text/javascript">
 	feather.replace()
@@ -62,7 +62,8 @@
 		</button>
 		<div class="navbar-nav">
 			<div class="nav-item text-nowrap">
-				<a class="nav-link px-3" href="/logout">Sair <span data-feather="log-out"></span></a>
+				<a class="nav-link px-3" href="/logout">Sair <span
+					data-feather="log-out"></span></a>
 			</div>
 		</div>
 	</header>
@@ -73,26 +74,19 @@
 				class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
 				<div class="position-sticky pt-3">
 					<ul class="nav flex-column">
-						<li class="nav-item">
-							<a class="nav-link" href="/home">
-								<span data-feather="home"></span>Dashboard
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link"href="/comparar">
+						<li class="nav-item"><a class="nav-link" href="/home"> <span
+								data-feather="home"></span>Dashboard
+						</a></li>
+						<li class="nav-item"><a class="nav-link" href="/comparar">
 								<span data-feather="search"></span>Comparar Periodos
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">
-								<span data-feather="info"></span>Dicas Economia
-							</a>
-						</li>
-						<li class="nav-item active">
-							<a class="nav-link" aria-current="page" href="/configuracao">
-								<span data-feather="file-text"></span>Configurações
-							</a>
-						</li>
+						</a></li>
+						<li class="nav-item"><a class="nav-link" href="#"> <span
+								data-feather="info"></span>Dicas Economia
+						</a></li>
+						<li class="nav-item active"><a class="nav-link"
+							aria-current="page" href="/configuracao"> <span
+								data-feather="file-text"></span>Configurações
+						</a></li>
 					</ul>
 				</div>
 			</nav>
@@ -135,7 +129,7 @@
 								</div>
 
 								<div class="col-12">
-									<label for="address" class="form-label">Potencia
+									<label for="address" class="form-label"> Potencia
 										Chuveiro <span class="text-muted">(W)</span>
 									</label> <input type="number" class="form-control" id="address"
 										placeholder="2500" required th:field="*{potencia}">
@@ -144,9 +138,9 @@
 								</div>
 
 								<div class="col-12">
-									<label for="address2" class="form-label">Numero
+									<label for="address2" class="form-label"> Numero
 										Telefone <span class="text-muted">(Optional)</span>
-									</label> <input type="number" class="form-control" id="address2"
+									</label> <input type="tel" class="form-control" id="address2"
 										placeholder="(XX) YYYY-ZZZZ" th:field="*{celular}">
 								</div>
 
@@ -155,26 +149,19 @@
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
 									id="definir-meta" th:field="*{comparar}"> <label
-									class="form-check-label" for="definir-meta">Desejo
+									class="form-check-label" for="definir-meta" th:checked="${flag}"> Desejo
 									estabelecer uma meta de tempo de uso e comparar com o tempo
-									real.</label>
+									real. </label>
 							</div>
 
 							<div class="col-12">
-								<label for="meta-tempo" class="form-label">Meta Tempo
+								<label for="meta-tempo" class="form-label"> Meta Tempo
 									Uso <span class="text-muted">(Minutos)</span>
 								</label> <input type="number" class="form-control" id="meta-tempo"
-									placeholder="15" th:field="*{meta}" disabled="disabled">
+									placeholder="15" th:field="*{meta}">
 							</div>
 
 							<hr class="my-4">
-
-							<div class="form-check">
-								<input type="checkbox" class="form-check-input"
-									id="notificao-celular" th:field="*{notificacaoCelular}">
-								<label class="form-check-label" for="notificao-celular">Desejo
-									receber notificações sobre o consumo por mensagem (Telegram).</label>
-							</div>
 
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
@@ -199,6 +186,14 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 		crossorigin="anonymous"></script>
+
+	<script type="text/javascript" th:inline="javascript">
+		feather.replace()
+
+		$("#definir-meta").click(function() {
+			$("#meta-tempo").attr("disabled", !this.checked)
+		})
+	</script>
 
 </body>
 </html>
