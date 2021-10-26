@@ -129,4 +129,37 @@ public class Consumo {
 		return item.getEnergia() / (NUMERO_HORAS_DO_DIA * DIVISOR_PARA_KILO);
 	}
 
+	public double calcularEnergiaPeriodo(List<ConsumoVO> consumoPeriodo) {
+		double energiaTotal = 0;
+		for (ConsumoVO consumoVO : consumoPeriodo) {
+			energiaTotal = energiaTotal + consumoVO.getEnergia();
+		}
+		return energiaTotal;
+	}
+
+	public double calcularAguaPeriodo(List<ConsumoVO> consumoPeriodo) {
+		double aguaTotal = 0;
+		for (ConsumoVO consumoVO : consumoPeriodo) {
+			aguaTotal = aguaTotal + consumoVO.getAgua();
+		}
+		return aguaTotal;
+	}
+
+	public int calcularTotalMinutos(List<ConsumoVO> consumoPeriodo) {
+		int totalTempo = 0;
+		for (ConsumoVO consumoVO : consumoPeriodo) {
+			totalTempo = totalTempo + consumoVO.getTempoUso();
+		}
+		return totalTempo;
+	}
+
+	public int calcularQuantidadeDias(List<ConsumoVO> consumoPeriodo) {
+		int totalDias = 0;
+		for (ConsumoVO consumoVO : consumoPeriodo) {
+			if (consumoVO.getTempoUso() != 0) {
+				totalDias++;
+			}
+		}
+		return totalDias;
+	}
 }

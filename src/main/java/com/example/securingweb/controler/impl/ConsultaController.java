@@ -41,11 +41,15 @@ public class ConsultaController implements IController {
 	@Autowired
 	DatasAdapter datasAdapter;
 
-	List<ConsumoVO> consumoPeriodo;
-	List<Object> dadosGraficoConsumo;
-	List<Object> dadosGraficoUso;
-	List<RelatorioVO> dadosRelatorio;
+	private List<ConsumoVO> consumoPeriodo;
+	private List<Object> dadosGraficoConsumo;
+	private List<Object> dadosGraficoUso;
+	private List<RelatorioVO> dadosRelatorio;
 	private DatasPesquisaVO datas;
+	private double agua;
+	private double energia;
+	private int totalMinutos;
+	private int totalDias;
 
 	@GetMapping("/home")
 	public String carregarPagina(Model model, HttpSession session) {
@@ -76,6 +80,18 @@ public class ConsultaController implements IController {
 		dadosRelatorio = RelatorioUtils.converterDadosRelatorio(consumoPeriodo, usuarioVO.getMeta());
 		model.addAttribute("dadosRelatorio", dadosRelatorio);
 
+		agua = consumo.calcularAguaPeriodo(consumoPeriodo);
+		model.addAttribute("consumoAguaPeriodo", agua);
+
+		energia = consumo.calcularEnergiaPeriodo(consumoPeriodo);
+		model.addAttribute("consumoEnergiaPeriodo", energia);
+
+		totalMinutos = consumo.calcularTotalMinutos(consumoPeriodo);
+		model.addAttribute("totalMinutosPeriodo", totalMinutos);
+
+		totalDias = consumo.calcularQuantidadeDias(consumoPeriodo);
+		model.addAttribute("diasPeriodo", totalDias);
+
 		model.addAttribute("datas", datas);
 
 		return "consulta";
@@ -101,6 +117,18 @@ public class ConsultaController implements IController {
 
 		dadosRelatorio = consumo.converterDadosRelatorio(consumoPeriodo, usuarioVO.getMeta());
 		model.addAttribute("dadosRelatorio", dadosRelatorio);
+
+		agua = consumo.calcularAguaPeriodo(consumoPeriodo);
+		model.addAttribute("consumoAguaPeriodo", agua);
+
+		energia = consumo.calcularEnergiaPeriodo(consumoPeriodo);
+		model.addAttribute("consumoEnergiaPeriodo", energia);
+
+		totalMinutos = consumo.calcularTotalMinutos(consumoPeriodo);
+		model.addAttribute("totalMinutosPeriodo", totalMinutos);
+
+		totalDias = consumo.calcularQuantidadeDias(consumoPeriodo);
+		model.addAttribute("diasPeriodo", totalDias);
 
 		model.addAttribute("datas", datas);
 
