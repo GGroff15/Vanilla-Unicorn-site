@@ -28,7 +28,7 @@ public class RelatorioUtils {
 			if (meta != null) {
 				relatorioVO.setTempoMeta(meta); // Obter esse valor dinamicamente com base no usuario logado
 			}
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 			relatorioVO.setData(dateFormat.format(calendar.getTime()));
 
 			dadosRelatorio.add(relatorioVO);

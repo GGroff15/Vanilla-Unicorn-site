@@ -110,7 +110,7 @@ public class Consumo {
 			if (meta != null) {
 				relatorioVO.setTempoMeta(meta);
 			}
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 			relatorioVO.setData(simpleDateFormat.format(calendar.getTime()));
 
 			dadosRelatorio.add(relatorioVO);
