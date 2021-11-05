@@ -158,6 +158,30 @@
 					<div class="my-4 w-100 col-md" id="chart_div_1"></div>
 					<div class="my-4 w-100 col-md" id="chart_div_2"></div>
 				</div>
+				<div class="row">
+					<div class="col">
+						<h5>Total água consumida no periodo</h5>
+						<span th:text="${consumoAguaPeriodo}"></span>
+						<span> Litros</span>
+					</div>
+					<div class="col">
+						<h5>Tempo total de uso no periodo buscado</h5>
+						<span th:text="${totalMinutosPeriodo}"></span>
+						<span> minutos</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<h5>Total energia consumida no periodo</h5>
+						<span th:text="${consumoEnergiaPeriodo}"></span>
+						<span> kWh</span>
+					</div>
+					<div class="col">
+						<h5>Total de dias no periodo buscado</h5>
+						<span th:text="${diasPeriodo}"></span>
+						<span> dias</span>
+					</div>
+				</div>
 
 				<h2>Relatório Detalhado</h2>
 				<div class="table-responsive">
