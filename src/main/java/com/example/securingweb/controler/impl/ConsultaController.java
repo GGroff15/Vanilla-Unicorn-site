@@ -2,12 +2,10 @@ package com.example.securingweb.controler.impl;
 
 import static com.example.securingweb.model.constants.Constants.ARQUIVO_TIPO_PDF;
 
-import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.securingweb.controler.IController;
 import com.example.securingweb.model.adapter.DatasAdapter;
-import com.example.securingweb.model.entity.ConsumoVO;
 import com.example.securingweb.model.entity.DatasPesquisaVO;
 import com.example.securingweb.model.entity.IntervaloDatasVO;
 import com.example.securingweb.model.entity.RelatorioVO;
@@ -35,13 +32,10 @@ import com.example.securingweb.utils.UsuarioUtils;
 @Scope("session")
 public class ConsultaController implements IController {
 
-	@Autowired
 	Consumo consumo;
 
-	@Autowired
-	DatasAdapter datasAdapter;
+	DatasAdapter datasAdapter = new DatasAdapter();
 
-	private List<ConsumoVO> consumoPeriodo;
 	private List<Object> dadosGraficoConsumo;
 	private List<Object> dadosGraficoUso;
 	private List<RelatorioVO> dadosRelatorio;
@@ -57,39 +51,36 @@ public class ConsultaController implements IController {
 
 		Long dataAtual = DataUtils.dataAtual();
 		Long trintaDiasAntes = DataUtils.trintaDiasAntes(dataAtual);
-
-		UsuarioVO usuarioVO = UsuarioUtils.recuperarDetalhesUsuario(session);
-
 		intervalo.setDataInicial(trintaDiasAntes);
 		intervalo.setDataFinal(dataAtual);
+
+		UsuarioVO usuarioVO = UsuarioUtils.recuperarDetalhesUsuario(session);
 
 		DatasPesquisaVO datasConvertidas = datasAdapter.converterIntervaloDatasVoParaDatasPesquisaVo(intervalo);
 
 		this.datas = datasConvertidas;
 
-		consumoPeriodo = consumo.consultar(intervalo);
+		consumo = new Consumo(intervalo);
 
-		consumoPeriodo.sort(Comparator.comparing(ConsumoVO::getData));
-
-		dadosGraficoConsumo = consumo.converterDadosGraficoConsumo(consumoPeriodo);
+		dadosGraficoConsumo = consumo.obterDadosGraficoConsumo();
 		model.addAttribute("dadosGraficoConsumo", dadosGraficoConsumo);
 
-		dadosGraficoUso = consumo.converterDadosGraficoUso(consumoPeriodo, usuarioVO.getMeta());
+		dadosGraficoUso = consumo.obterDadosGraficoUso(usuarioVO.getMeta());
 		model.addAttribute("dadosGraficoUso", dadosGraficoUso);
 
-		dadosRelatorio = RelatorioUtils.converterDadosRelatorio(consumoPeriodo, usuarioVO.getMeta());
+		dadosRelatorio = RelatorioUtils.converterDadosRelatorio(consumo.getConsumoPeriodo(), usuarioVO.getMeta());
 		model.addAttribute("dadosRelatorio", dadosRelatorio);
 
-		agua = consumo.calcularAguaPeriodo(consumoPeriodo);
+		agua = consumo.obterTotalConsumoAgua();
 		model.addAttribute("consumoAguaPeriodo", agua);
 
-		energia = consumo.calcularEnergiaPeriodo(consumoPeriodo);
+		energia = consumo.calcularEnergiaPeriodo();
 		model.addAttribute("consumoEnergiaPeriodo", energia);
 
-		totalMinutos = consumo.calcularTotalMinutos(consumoPeriodo);
+		totalMinutos = consumo.calcularTotalMinutos();
 		model.addAttribute("totalMinutosPeriodo", totalMinutos);
 
-		totalDias = consumo.calcularQuantidadeDias(consumoPeriodo);
+		totalDias = consumo.calcularQuantidadeDias();
 		model.addAttribute("diasPeriodo", totalDias);
 
 		model.addAttribute("datas", datas);
@@ -100,34 +91,33 @@ public class ConsultaController implements IController {
 
 	@PostMapping("/home")
 	public String buscar(Model model, HttpSession session, DatasPesquisaVO datas) {
-
 		this.datas = datas;
 
 		IntervaloDatasVO intervaloDatasVO = datasAdapter.converterDatasPesquisaVoParaIntervaloDatasVo(datas);
 
 		UsuarioVO usuarioVO = UsuarioUtils.recuperarDetalhesUsuario(session);
 
-		consumoPeriodo = consumo.consultar(intervaloDatasVO);
+		consumo = new Consumo(intervaloDatasVO);
 
-		dadosGraficoConsumo = consumo.converterDadosGraficoConsumo(consumoPeriodo);
+		dadosGraficoConsumo = consumo.obterDadosGraficoConsumo();
 		model.addAttribute("dadosGraficoConsumo", dadosGraficoConsumo);
 
-		dadosGraficoUso = consumo.converterDadosGraficoUso(consumoPeriodo, usuarioVO.getMeta());
+		dadosGraficoUso = consumo.obterDadosGraficoUso(usuarioVO.getMeta());
 		model.addAttribute("dadosGraficoUso", dadosGraficoUso);
 
-		dadosRelatorio = consumo.converterDadosRelatorio(consumoPeriodo, usuarioVO.getMeta());
+		dadosRelatorio = consumo.converterDadosRelatorio(usuarioVO.getMeta());
 		model.addAttribute("dadosRelatorio", dadosRelatorio);
 
-		agua = consumo.calcularAguaPeriodo(consumoPeriodo);
+		agua = consumo.obterTotalConsumoAgua();
 		model.addAttribute("consumoAguaPeriodo", agua);
 
-		energia = consumo.calcularEnergiaPeriodo(consumoPeriodo);
+		energia = consumo.calcularEnergiaPeriodo();
 		model.addAttribute("consumoEnergiaPeriodo", energia);
 
-		totalMinutos = consumo.calcularTotalMinutos(consumoPeriodo);
+		totalMinutos = consumo.calcularTotalMinutos();
 		model.addAttribute("totalMinutosPeriodo", totalMinutos);
 
-		totalDias = consumo.calcularQuantidadeDias(consumoPeriodo);
+		totalDias = consumo.calcularQuantidadeDias();
 		model.addAttribute("diasPeriodo", totalDias);
 
 		model.addAttribute("datas", datas);
@@ -159,7 +149,7 @@ public class ConsultaController implements IController {
 	}
 
 	private byte[] criarRelatorioConsumo(UsuarioVO usuarioVO, AbstractArquivoService arquivo) {
-		arquivo.gerar(consumoPeriodo, usuarioVO.getMeta());
+		arquivo.gerar(consumo.getConsumoPeriodo(), usuarioVO.getMeta());
 		return arquivo.getBytes();
 	}
 
