@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vanilla Unicorn - Entrar</title>
+<title>Vanilla Unicorn - Cadastrar</title>
 
 <link rel="icon" href="/images/icon.jpeg">
 
@@ -93,12 +93,6 @@
 		<hr class="my-4">
 
 		<div class="checkbox mb-3">
-			<label class="form-check-label" for="notificao-celular">
-				<input type="checkbox" id="notificao-celular" th:field="*{notificacaoCelular}"> Desejo receber notificações sobre o consumo por mensagem (Telegram).
-			</label>
-		</div>
-
-		<div class="checkbox mb-3">
 			<label class="form-check-label" for="notificacao-email">
 				<input type="checkbox" id="notificacao-email" th:field="*{notificacaoEmail}"> Desejo receber por e-mail relatorios mensais de consumo.
 			</label>
@@ -107,7 +101,7 @@
 		<input name="submit" value="Cadastrar-se" class="w-100 btn btn-lg btn-primary" type="submit"/>
 	</form>
 
-	<a th:href="@{/login}">Login</a>
+	<a th:href="@{/login}">Fazer Login</a>
 	</main>
 </body>
 </html>
