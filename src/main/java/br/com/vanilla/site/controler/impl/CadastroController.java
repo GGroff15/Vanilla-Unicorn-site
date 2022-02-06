@@ -43,9 +43,7 @@ public class CadastroController {
 
 		try {
 			cadastro.cadastrarNovoUsuario(usuario);
-
-			String url = request.getContextPath();
-			eventPublisher.publishEvent(new OnRegistrationCompleteEvent(usuario, request.getLocale(), url));
+			eventPublisher.publishEvent(new OnRegistrationCompleteEvent(usuario));
 		} catch (UsuarioJaCadastradoException e) {
 			ModelAndView modelAndView = new ModelAndView("signup", USUARIO, usuario);
 			modelAndView.addObject("message", e);
