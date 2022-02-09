@@ -14,6 +14,7 @@ import br.com.vanilla.site.entity.DatasPesquisaVO;
 import br.com.vanilla.site.entity.IntervaloDatasVO;
 import br.com.vanilla.site.entity.RelatorioVO;
 import br.com.vanilla.site.entity.Usuario;
+import br.com.vanilla.site.entity.UsuarioDTO;
 import br.com.vanilla.site.model.adapter.DatasAdapter;
 import br.com.vanilla.site.service.ConsumoService;
 import br.com.vanilla.site.utils.DataUtils;
@@ -37,11 +38,11 @@ public class CompararController {
 	private List<Object> dadosGraficoUso2;
 	private List<RelatorioVO> dadosRelatorio2;
 	private DatasPeriodoComparacao datas;
-	private Usuario usuarioVO;
+	private UsuarioDTO usuario;
 
 	@GetMapping("/comparar")
 	public String carregarPagina(Model model, HttpSession session) {
-		usuarioVO = UsuarioUtils.recuperarDetalhesUsuario(session);
+		usuario = UsuarioUtils.recuperarDetalhesUsuario(session);
 		IntervaloDatasVO intervalo = new IntervaloDatasVO();
 		Long dataAtual = DataUtils.dataAtual();
 		Long trintaDiasAntes = DataUtils.trintaDiasAntes(dataAtual);
@@ -59,15 +60,15 @@ public class CompararController {
 		datasPeriodos.setDataFinal2(datasConvertidas.getDataFinal());
 
 		dadosGraficoConsumo1 = consumo.obterDadosConsumo();
-		dadosGraficoUso1 = consumo.obterDadosUso(usuarioVO.getMeta());
-		dadosRelatorio1 = RelatorioUtils.converterDadosRelatorio(consumo.getConsumoPeriodo(), usuarioVO.getMeta());
+		dadosGraficoUso1 = consumo.obterDadosUso(usuario.getMeta());
+		dadosRelatorio1 = RelatorioUtils.converterDadosRelatorio(consumo.getConsumoPeriodo(), usuario.getMeta());
 		model.addAttribute(DADOS_GRAFICO_CONSUMO + 1, dadosGraficoConsumo1);
 		model.addAttribute(DADOS_GRAFICO_USO + 1, dadosGraficoUso1);
 		model.addAttribute(DADOS_RELATORIO + 1, dadosRelatorio1);
 
 		dadosGraficoConsumo2 = consumo.obterDadosConsumo();
-		dadosGraficoUso2 = consumo.obterDadosUso(usuarioVO.getMeta());
-		dadosRelatorio2 = RelatorioUtils.converterDadosRelatorio(consumo.getConsumoPeriodo(), usuarioVO.getMeta());
+		dadosGraficoUso2 = consumo.obterDadosUso(usuario.getMeta());
+		dadosRelatorio2 = RelatorioUtils.converterDadosRelatorio(consumo.getConsumoPeriodo(), usuario.getMeta());
 		model.addAttribute(DADOS_GRAFICO_CONSUMO + 2, dadosGraficoConsumo2);
 		model.addAttribute(DADOS_GRAFICO_USO + 2, dadosGraficoUso2);
 		model.addAttribute(DADOS_RELATORIO + 2, dadosRelatorio2);
@@ -80,7 +81,7 @@ public class CompararController {
 	@PostMapping("/comparar")
 	public String buscar(Model model, HttpSession session, DatasPeriodoComparacao datas) {
 		this.datas = datas;
-		usuarioVO = UsuarioUtils.recuperarDetalhesUsuario(session);
+		usuario = UsuarioUtils.recuperarDetalhesUsuario(session);
 		popularDadosPeriodo1(model);
 		popularDadosPeriodo2(model);
 		return "comparar";
@@ -95,8 +96,8 @@ public class CompararController {
 		consumo = new ConsumoService(intervaloDatas1);
 
 		dadosGraficoConsumo1 = consumo.obterDadosConsumo();
-		dadosGraficoUso1 = consumo.obterDadosUso(usuarioVO.getMeta());
-		dadosRelatorio1 = RelatorioUtils.converterDadosRelatorio(consumo.getConsumoPeriodo(), usuarioVO.getMeta());
+		dadosGraficoUso1 = consumo.obterDadosUso(usuario.getMeta());
+		dadosRelatorio1 = RelatorioUtils.converterDadosRelatorio(consumo.getConsumoPeriodo(), usuario.getMeta());
 
 		model.addAttribute(DADOS_GRAFICO_CONSUMO + 1, dadosGraficoConsumo1);
 		model.addAttribute(DADOS_GRAFICO_USO + 1, dadosGraficoUso1);
@@ -111,8 +112,8 @@ public class CompararController {
 
 		consumo = new ConsumoService(intervaloDatas2);
 		dadosGraficoConsumo2 = consumo.obterDadosConsumo();
-		dadosGraficoUso2 = consumo.obterDadosUso(usuarioVO.getMeta());
-		dadosRelatorio2 = RelatorioUtils.converterDadosRelatorio(consumo.getConsumoPeriodo(), usuarioVO.getMeta());
+		dadosGraficoUso2 = consumo.obterDadosUso(usuario.getMeta());
+		dadosRelatorio2 = RelatorioUtils.converterDadosRelatorio(consumo.getConsumoPeriodo(), usuario.getMeta());
 
 		model.addAttribute("dadosGraficoConsumo2", dadosGraficoConsumo2);
 		model.addAttribute("dadosGraficoUso2", dadosGraficoUso2);

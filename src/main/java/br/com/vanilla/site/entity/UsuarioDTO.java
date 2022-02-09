@@ -2,16 +2,11 @@ package br.com.vanilla.site.entity;
 
 import java.io.Serializable;
 
-import org.bson.types.ObjectId;
-
 public class UsuarioDTO implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5976220206002467857L;
 
-	private ObjectId id;
+	private String id;
 
 	private String nome;
 
@@ -97,11 +92,11 @@ public class UsuarioDTO implements Serializable {
 		this.meta = meta;
 	}
 
-	public ObjectId getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(ObjectId id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

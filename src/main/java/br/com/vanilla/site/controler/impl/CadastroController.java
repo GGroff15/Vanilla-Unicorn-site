@@ -1,7 +1,6 @@
 package br.com.vanilla.site.controler.impl;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.com.vanilla.site.entity.Usuario;
 import br.com.vanilla.site.entity.UsuarioDTO;
 import br.com.vanilla.site.model.config.event.OnRegistrationCompleteEvent;
 import br.com.vanilla.site.model.exception.UsuarioJaCadastradoException;
@@ -23,12 +21,13 @@ import br.com.vanilla.site.service.CadastroService;
 public class CadastroController {
 
 	private static final String USUARIO = "usuario";
+	
 	@Autowired
 	ApplicationEventPublisher eventPublisher;
 
 	@GetMapping("/signup")
 	public String carregarPagina(Model model) {
-		Usuario usuarioVO = new Usuario();
+		UsuarioDTO usuarioVO = new UsuarioDTO();
 
 		model.addAttribute(USUARIO, usuarioVO);
 
@@ -36,7 +35,7 @@ public class CadastroController {
 	}
 
 	@PostMapping("/signup")
-	public ModelAndView registrar(@ModelAttribute(USUARIO) @Valid UsuarioDTO usuario, Errors errors,
+	public ModelAndView registrar(@ModelAttribute(USUARIO) UsuarioDTO usuario, Errors errors,
 			HttpServletRequest request) {
 
 		CadastroService cadastro = new CadastroService();

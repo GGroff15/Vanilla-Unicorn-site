@@ -2,19 +2,19 @@ package br.com.vanilla.site.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.com.vanilla.site.dao.Dao;
-import br.com.vanilla.site.dao.impl.FactoryDao;
-import br.com.vanilla.site.entity.Usuario;
+import br.com.vanilla.site.connector.IntegradorConector;
 import br.com.vanilla.site.entity.UsuarioDTO;
 import br.com.vanilla.site.model.exception.UsuarioJaCadastradoException;
 
 @Service
 public class CadastroService {
-
-	Dao<Usuario, String> dao = FactoryDao.criarUsuarioDao();
+	
+	@Autowired
+	private IntegradorConector integradorConector;
 
 	public void cadastrarNovoUsuario(UsuarioDTO novoUsuario) throws UsuarioJaCadastradoException {
 
@@ -23,35 +23,22 @@ public class CadastroService {
 		if (emailOuUsernameExiste(novoUsuario)) {
 			throw new UsuarioJaCadastradoException("Nome de usuario ou email já cadastrado!");
 		}
-
-		Usuario usuarioVO = new Usuario();
-		usuarioVO.setId(novoUsuario.getId());
-		usuarioVO.setCelular(novoUsuario.getCelular());
-		usuarioVO.setComparar(novoUsuario.isComparar());
-		usuarioVO.setEmail(novoUsuario.getEmail());
-		usuarioVO.setMeta(novoUsuario.getMeta());
-		usuarioVO.setNome(novoUsuario.getNome());
-		usuarioVO.setNotificacaoCelular(novoUsuario.isNotificacaoCelular());
-		usuarioVO.setNotificacaoEmail(novoUsuario.isNotificacaoEmail());
-		usuarioVO.setPotencia(novoUsuario.getPotencia());
-		usuarioVO.setSenha(novoUsuario.getSenha());
-		usuarioVO.setUsername(novoUsuario.getUsername());
-
-		dao.save(usuarioVO);
+		
+		integradorConector.saveUser(novoUsuario);
 	}
 
-	public void atualizarCadastroUsuario(Usuario usuarioVO) {
+	public void atualizarCadastroUsuario(UsuarioDTO usuario) {
 
-		dao.update(usuarioVO, usuarioVO.getUsername());
+		dao.update(usuario, usuario.getUsername());
 	}
 
 	public boolean emailOuUsernameExiste(UsuarioDTO usuarioVO) {
 
-		List<Usuario> usuariosCadastrados = dao.getAll();
-		for (Usuario item : usuariosCadastrados) {
+		List<UsuarioDTO> usuariosCadastrados = dao.getAll();
+		for (UsuarioDTO usuario : usuariosCadastrados) {
 
-			if ((item.getUsername().equals(usuarioVO.getUsername()))
-					|| (item.getEmail().equals(usuarioVO.getEmail()))) {
+			if ((usuario.getUsername().equals(usuarioVO.getUsername()))
+					|| (usuario.getEmail().equals(usuarioVO.getEmail()))) {
 				return true;
 			}
 		}

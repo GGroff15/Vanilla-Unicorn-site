@@ -1,12 +1,11 @@
 package br.com.vanilla.site.utils;
 
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
-import br.com.vanilla.site.entity.Usuario;
+import br.com.vanilla.site.entity.UsuarioDTO;
 import br.com.vanilla.site.model.constants.Constants;
 import br.com.vanilla.site.model.enums.PropriedadeUsuarioEnum;
 
@@ -29,8 +28,8 @@ public class UsuarioUtils {
 		return "";
 	}
 
-	public static Usuario recuperarDetalhesUsuario(HttpSession session) {
-		return (Usuario) session.getAttribute(Constants.DADOS_USUARIO_SESSION);
+	public static UsuarioDTO recuperarDetalhesUsuario(HttpSession session) {
+		return (UsuarioDTO) session.getAttribute(Constants.DADOS_USUARIO_SESSION);
 	}
 
 }

@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.vanilla.site.entity.ConsumoVO;
+import br.com.vanilla.site.entity.ConsumoDTO;
+import br.com.vanilla.site.entity.LeituraDTO;
 import br.com.vanilla.site.entity.RelatorioVO;
 
 public class RelatorioUtils {
@@ -13,18 +14,20 @@ public class RelatorioUtils {
 	private RelatorioUtils() {
 	}
 
-	public static List<RelatorioVO> converterDadosRelatorio(List<ConsumoVO> consumoPeriodo, Integer meta) {
+	public static List<RelatorioVO> converterDadosRelatorio(List<LeituraDTO> leituras, Integer meta) {
 		List<RelatorioVO> dadosRelatorio = new ArrayList<>();
 
-		for (ConsumoVO item : consumoPeriodo) {
+		for (LeituraDTO leitura : leituras) {
 			RelatorioVO relatorioVO = new RelatorioVO();
 
 			Calendar calendar = Calendar.getInstance();
-			calendar.setTimeInMillis(item.getData());
+			calendar.setTime(leitura.getData());
+			
+			ConsumoDTO consumo = leitura.getConsumo();
 
-			relatorioVO.setAgua(item.getAgua());
-			relatorioVO.setEnergia(item.getEnergia() / 24000);
-			relatorioVO.setTempoUso(item.getTempoUso());
+			relatorioVO.setAgua(consumo.getAgua());
+			relatorioVO.setEnergia(consumo.getEnergia() / 24000);
+			relatorioVO.setTempoUso(consumo.getTempoUso());
 			if (meta != null) {
 				relatorioVO.setTempoMeta(meta); // Obter esse valor dinamicamente com base no usuario logado
 			}

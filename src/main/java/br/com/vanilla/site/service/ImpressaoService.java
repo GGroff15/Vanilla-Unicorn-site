@@ -2,13 +2,13 @@ package br.com.vanilla.site.service;
 
 import java.util.List;
 
-import br.com.vanilla.site.entity.ConsumoVO;
+import br.com.vanilla.site.entity.LeituraDTO;
 import br.com.vanilla.site.entity.Relatorio;
 
 public abstract class ImpressaoService {
 
 	protected Relatorio relatorio;
-	protected List<ConsumoVO> consumo;
+	protected List<LeituraDTO> leituras;
 	protected int meta;
 
 	/**
@@ -32,9 +32,9 @@ public abstract class ImpressaoService {
 	}
 
 	public Relatorio gerar() {
-		gerarArquivo(consumo, meta);
+		gerarArquivo(leituras, meta);
 		return relatorio;
 	}
 
-	protected abstract void gerarArquivo(List<ConsumoVO> consumo, int meta);
+	protected abstract void gerarArquivo(List<LeituraDTO> leituras, int meta);
 }

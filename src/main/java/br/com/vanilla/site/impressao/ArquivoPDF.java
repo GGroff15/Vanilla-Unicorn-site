@@ -21,7 +21,7 @@ public class ArquivoPDF extends ImpressaoService {
 
 	protected ArquivoPDF(String dataInicial, String dataFinal, List<ConsumoVO> consumo, int meta) {
 		super(dataInicial, dataFinal, "pdf");
-		super.consumo = consumo;
+		super.leituras = consumo;
 		super.meta = meta;
 	}
 

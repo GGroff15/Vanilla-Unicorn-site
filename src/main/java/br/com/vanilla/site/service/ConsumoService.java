@@ -4,36 +4,40 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.List;
 
-import br.com.vanilla.site.dao.Dao;
-import br.com.vanilla.site.dao.impl.FactoryDao;
-import br.com.vanilla.site.entity.ConsumoVO;
-import br.com.vanilla.site.entity.IntervaloDatasVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.com.vanilla.site.connector.IntegradorConector;
+import br.com.vanilla.site.entity.ConsumoDTO;
+import br.com.vanilla.site.entity.IntervaloDTO;
+import br.com.vanilla.site.entity.LeituraDTO;
 import br.com.vanilla.site.entity.RelatorioVO;
 
+@Service
 public class ConsumoService {
+	
+	@Autowired
+	private IntegradorConector integradorConector;
 
 	private static final int DIVISOR_PARA_KILO = 1000;
 	private static final int NUMERO_HORAS_DO_DIA = 24;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	private Calendar calendar = Calendar.getInstance();
 
-	private List<ConsumoVO> consumoPeriodo = new ArrayList<>();
+	private List<LeituraDTO> leiturasPeriodo = new ArrayList<>();
 
-	public ConsumoService(IntervaloDatasVO intervaloDatasVO) {
-		Dao<ConsumoVO, IntervaloDatasVO> dao = FactoryDao.criarConsumoDao();
-		this.consumoPeriodo = dao.get(intervaloDatasVO);
-		consumoPeriodo.sort(Comparator.comparing(ConsumoVO::getData));
+	public ConsumoService(IntervaloDTO intervalo) {
+		leiturasPeriodo = integradorConector.getLeiturasIntervalo(intervalo);
 	}
 
 	public List<Object> obterDadosConsumo() {
 		List<Object> dadosGrafico = new ArrayList<>();
 		dadosGrafico.add(Arrays.asList("Data", "Energia (kW)", "Água (L)"));
-		for (ConsumoVO item : consumoPeriodo) {
-			calendar.setTimeInMillis(item.getData());
-			List<Object> coluna = Arrays.asList(getDataConsumo(), calcularKiloWattHora(item), item.getAgua());
+		for (LeituraDTO leitura : leiturasPeriodo) {
+			calendar.setTime(leitura.getData());
+			List<Object> coluna = Arrays.asList(getDataConsumo(), calcularKiloWattHora(leitura.getConsumo()), leitura.getConsumo().getAgua());
 			dadosGrafico.add(coluna);
 		}
 		return dadosGrafico;
@@ -53,27 +57,27 @@ public class ConsumoService {
 	}
 
 	private void dadosUso(List<Object> dadosGrafico) {
-		for (ConsumoVO item : consumoPeriodo) {
-			calendar.setTimeInMillis(item.getData());
-			List<Object> coluna = Arrays.asList(getDataConsumo(), getTempoUso(item), calcularMediaTempoUso());
+		for (LeituraDTO leitura : leiturasPeriodo) {
+			calendar.setTime(leitura.getData());
+			List<Object> coluna = Arrays.asList(getDataConsumo(), getTempoUso(leitura), calcularMediaTempoUso());
 			dadosGrafico.add(coluna);
 		}
 	}
 
 	private void dadosUso(Integer meta, List<Object> dadosGrafico) {
-		for (ConsumoVO item : consumoPeriodo) {
-			calendar.setTimeInMillis(item.getData());
-			List<Object> coluna = Arrays.asList(getDataConsumo(), getTempoUso(item), calcularMediaTempoUso(), meta);
+		for (LeituraDTO leitura : leiturasPeriodo) {
+			calendar.setTime(leitura.getData());
+			List<Object> coluna = Arrays.asList(getDataConsumo(), getTempoUso(leitura), calcularMediaTempoUso(), meta);
 			dadosGrafico.add(coluna);
 		}
 	}
 
 	private int calcularMediaTempoUso() {
 		int tempoTotalPeriodo = 0;
-		for (ConsumoVO consumoDia : consumoPeriodo) {
-			tempoTotalPeriodo = tempoTotalPeriodo + getTempoUso(consumoDia);
+		for (LeituraDTO leitura : leiturasPeriodo) {
+			tempoTotalPeriodo = tempoTotalPeriodo + getTempoUso(leitura);
 		}
-		return tempoTotalPeriodo / consumoPeriodo.size();
+		return tempoTotalPeriodo / leiturasPeriodo.size();
 	}
 
 	private List<String> tituloColunasComMeta() {
@@ -88,8 +92,8 @@ public class ConsumoService {
 		return meta == null || meta == 0;
 	}
 
-	private int getTempoUso(ConsumoVO item) {
-		return item.getTempoUso();
+	private int getTempoUso(LeituraDTO leitura) {
+		return leitura.getConsumo().getTempoUso();
 	}
 
 	private String getDataConsumo() {
@@ -99,14 +103,16 @@ public class ConsumoService {
 	public List<RelatorioVO> obterDadosRelatorio(Integer meta) {
 		List<RelatorioVO> dadosRelatorio = new ArrayList<>();
 
-		for (ConsumoVO item : consumoPeriodo) {
+		for (LeituraDTO leitura : leiturasPeriodo) {
 			RelatorioVO relatorioVO = new RelatorioVO();
 
-			calendar.setTimeInMillis(item.getData());
+			calendar.setTime(leitura.getData());
 
-			relatorioVO.setAgua(item.getAgua());
-			relatorioVO.setEnergia(item.getEnergia() / 24000);
-			relatorioVO.setTempoUso(item.getTempoUso());
+			ConsumoDTO consumo = leitura.getConsumo();
+			
+			relatorioVO.setAgua(consumo.getAgua());
+			relatorioVO.setEnergia(consumo.getEnergia() / 24000);
+			relatorioVO.setTempoUso(consumo.getTempoUso());
 			if (meta != null) {
 				relatorioVO.setTempoMeta(meta);
 			}
@@ -119,45 +125,45 @@ public class ConsumoService {
 		return dadosRelatorio;
 	}
 
-	private double calcularKiloWattHora(ConsumoVO item) {
+	private double calcularKiloWattHora(ConsumoDTO item) {
 		return item.getEnergia() / (NUMERO_HORAS_DO_DIA * DIVISOR_PARA_KILO);
 	}
 
 	public double consumoEnergiaPeriodo() {
 		double energiaTotal = 0;
-		for (ConsumoVO consumoVO : consumoPeriodo) {
-			energiaTotal = energiaTotal + consumoVO.getEnergia();
+		for (LeituraDTO leitura : leiturasPeriodo) {
+			energiaTotal = energiaTotal + leitura.getConsumo().getEnergia();
 		}
 		return energiaTotal;
 	}
 
 	public double obterTotalConsumoAgua() {
 		double aguaTotal = 0;
-		for (ConsumoVO consumoVO : consumoPeriodo) {
-			aguaTotal = aguaTotal + consumoVO.getAgua();
+		for (LeituraDTO leitura : leiturasPeriodo) {
+			aguaTotal = aguaTotal + leitura.getConsumo().getAgua();
 		}
 		return aguaTotal;
 	}
 
 	public int calcularTempoUsoTotal() {
 		int totalTempo = 0;
-		for (ConsumoVO consumoVO : consumoPeriodo) {
-			totalTempo = totalTempo + consumoVO.getTempoUso();
+		for (LeituraDTO leitura : leiturasPeriodo) {
+			totalTempo = totalTempo + leitura.getConsumo().getTempoUso();
 		}
 		return totalTempo;
 	}
 
 	public int calcularQuantidadeDias() {
 		int totalDias = 0;
-		for (ConsumoVO consumoVO : consumoPeriodo) {
-			if (consumoVO.getTempoUso() != 0) {
+		for (LeituraDTO leitura : leiturasPeriodo) {
+			if (leitura.getConsumo().getTempoUso() != 0) {
 				totalDias++;
 			}
 		}
 		return totalDias;
 	}
 
-	public List<ConsumoVO> getConsumoPeriodo() {
-		return consumoPeriodo;
+	public List<LeituraDTO> getConsumoPeriodo() {
+		return leiturasPeriodo;
 	}
 }
