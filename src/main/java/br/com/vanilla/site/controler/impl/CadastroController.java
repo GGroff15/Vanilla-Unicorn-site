@@ -1,8 +1,10 @@
 package br.com.vanilla.site.controler.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,38 +22,53 @@ import br.com.vanilla.site.service.CadastroService;
 @Controller
 public class CadastroController {
 
-	private static final String USUARIO = "usuario";
-	
-	@Autowired
-	ApplicationEventPublisher eventPublisher;
+	private static final String VIEW_SIGNUP = "signup";
+
+	private static final String ATTRIBUTE_USUARIO = "usuario";
+
+	private ApplicationEventPublisher eventPublisher;
+
+	private CadastroService cadastroService;
+
+	private UsuarioDTO usuario;
+
+	public CadastroController(ApplicationEventPublisher eventPublisher, CadastroService cadastroService) {
+		this.eventPublisher = eventPublisher;
+		this.cadastroService = cadastroService;
+	}
 
 	@GetMapping("/signup")
-	public String carregarPagina(Model model) {
-		UsuarioDTO usuarioVO = new UsuarioDTO();
-
-		model.addAttribute(USUARIO, usuarioVO);
-
-		return "signup";
+	public ModelAndView carregarPagina(Model model) {
+		usuario = new UsuarioDTO();
+		return new ModelAndView(VIEW_SIGNUP, ATTRIBUTE_USUARIO, usuario);
 	}
 
 	@PostMapping("/signup")
-	public ModelAndView registrar(@ModelAttribute(USUARIO) UsuarioDTO usuario, Errors errors,
+	public ModelAndView registrar(@ModelAttribute(ATTRIBUTE_USUARIO) UsuarioDTO attributeUsuario, Errors errors,
 			HttpServletRequest request) {
+		usuario = attributeUsuario;
+		return registrarUsuario();
+	}
 
-		CadastroService cadastro = new CadastroService();
-
+	private ModelAndView registrarUsuario() {
 		try {
-			cadastro.cadastrarNovoUsuario(usuario);
+			cadastroService.cadastrarNovoUsuario(usuario);
 			eventPublisher.publishEvent(new OnRegistrationCompleteEvent(usuario));
-		} catch (UsuarioJaCadastradoException e) {
-			ModelAndView modelAndView = new ModelAndView("signup", USUARIO, usuario);
-			modelAndView.addObject("message", e);
-			return modelAndView;
-		} catch (RuntimeException e) {
-			return new ModelAndView("erroEmail", USUARIO, usuario);
+			return redirecionarParaLogin();
+		} catch (UsuarioJaCadastradoException | RuntimeException e) {
+			return tratarException(e);
 		}
+	}
 
-		return new ModelAndView("redirect:/login", USUARIO, usuario);
+	private ModelAndView redirecionarParaLogin() {
+		return new ModelAndView("redirect:/login", ATTRIBUTE_USUARIO, usuario);
+	}
+
+	private ModelAndView tratarException(Exception e) {
+		Map<String, Object> modelMap = new HashMap<>();
+		modelMap.put(ATTRIBUTE_USUARIO, usuario);
+		modelMap.put("message", e);
+		return new ModelAndView(VIEW_SIGNUP, modelMap);
 	}
 
 }

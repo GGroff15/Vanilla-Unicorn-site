@@ -1,5 +1,6 @@
 package br.com.vanilla.site.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,15 +12,16 @@ public final class DataUtils {
 	private DataUtils() {
 	}
 
-	private static final long TRINTA_DIAS_MILISEGUNDOS = 2592000000L;
-
-	public static long dataAtual() {
+	public static Date dataAtual() {
 		Calendar calendar = Calendar.getInstance();
-		return calendar.getTimeInMillis();
+		return calendar.getTime();
 	}
 
-	public static long trintaDiasAntes(long data) {
-		return data - TRINTA_DIAS_MILISEGUNDOS;
+	public static Date trintaDiasAntes(Date data) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(data);
+		calendar.roll(Calendar.MONTH, -1);
+		return calendar.getTime();
 	}
 
 	public static String formatarData(int dia, int mes, int ano) {
@@ -40,17 +42,19 @@ public final class DataUtils {
 		return calendar.getTime();
 	}
 
-	public static String formatarData(String padrao, long dateInicial) {
+	public static String formatar(String padrao, long dateInicial) {
 		return new SimpleDateFormat(padrao).format(dateInicial);
 	}
 
 	public static IntervaloDTO obterIntervaloUltimosTrintaDias() {
-		IntervaloDTO intervalo = new IntervaloDTO();
-		Long dataAtual = DataUtils.dataAtual();
-		Long trintaDiasAntes = DataUtils.trintaDiasAntes(dataAtual);
-		intervalo.setInicio(new Date(trintaDiasAntes));
-		intervalo.setFim(new Date(dataAtual));
-		return intervalo;
+		Date fim = DataUtils.dataAtual();
+		Date inicio = DataUtils.trintaDiasAntes(fim);
+		return new IntervaloDTO(inicio, fim);
+	}
+
+	public static Date converter(String data) throws ParseException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		return simpleDateFormat.parse(data);
 	}
 
 }
