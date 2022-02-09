@@ -16,9 +16,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-import br.com.vanilla.site.dao.Dao;
-import br.com.vanilla.site.dao.impl.FactoryDao;
-import br.com.vanilla.site.entity.Usuario;
+import br.com.vanilla.site.connector.IntegradorConector;
+import br.com.vanilla.site.entity.UsuarioDTO;
 import br.com.vanilla.site.model.config.security.handler.CustomAccessDeniedHandler;
 import br.com.vanilla.site.model.config.security.handler.CustomAuthenticationFailureHandler;
 import br.com.vanilla.site.model.config.security.handler.CustomAuthenticationSuccessHandler;
@@ -30,29 +29,31 @@ import br.com.vanilla.site.model.config.security.user_details.CustomUserDetailsS
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	PasswordEncoder passwordEncoder;
-	
+	private PasswordEncoder passwordEncoder;
+
 	@Autowired
-	CustomUserDetailsService userDetailsService;
+	private CustomUserDetailsService userDetailsService;
+
+	@Autowired
+	private IntegradorConector integradorConector;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-		Dao<Usuario, String> dao = FactoryDao.criarUsuarioDao();
-		List<Usuario> listaUsuarios = dao.getAll();
+		List<UsuarioDTO> listaUsuarios = integradorConector.listarUsuarios();
 
-		for (Usuario usuario : listaUsuarios) {
+		for (UsuarioDTO usuario : listaUsuarios) {
 			auth.inMemoryAuthentication().passwordEncoder(passwordEncoder).withUser(usuario.getUsername())
 					.password(usuario.getSenha()).authorities("ADMIN");
 		}
-		
+
 		auth.userDetailsService(userDetailsService);
 
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		
+
 		// @formatter:off
 		http
 			.csrf().disable()

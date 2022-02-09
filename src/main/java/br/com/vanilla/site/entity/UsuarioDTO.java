@@ -116,4 +116,18 @@ public class UsuarioDTO implements Serializable {
 		this.notificacaoEmail = notificacaoEmail;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof UsuarioDTO)) {
+			return false;
+		}
+		UsuarioDTO usuario = (UsuarioDTO) obj;
+		return this.username.equals(usuario.getUsername()) || this.email.equals(usuario.getEmail());
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
 }

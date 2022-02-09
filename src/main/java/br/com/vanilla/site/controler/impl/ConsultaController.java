@@ -1,5 +1,7 @@
 package br.com.vanilla.site.controler.impl;
 
+import java.text.ParseException;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
@@ -10,10 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import br.com.vanilla.site.controler.helper.DownloadRelatorioHelper;
-import br.com.vanilla.site.entity.Consumo;
+import br.com.vanilla.site.entity.ConsumoViewData;
 import br.com.vanilla.site.entity.DatasPesquisaVO;
-import br.com.vanilla.site.entity.IntervaloDatasVO;
-import br.com.vanilla.site.entity.Usuario;
+import br.com.vanilla.site.entity.IntervaloDTO;
+import br.com.vanilla.site.entity.UsuarioDTO;
 import br.com.vanilla.site.model.adapter.DatasAdapter;
 import br.com.vanilla.site.service.facade.ConsumoFacade;
 import br.com.vanilla.site.utils.DataUtils;
@@ -34,35 +36,35 @@ public class ConsultaController {
 
 	private DatasAdapter datasAdapter = new DatasAdapter();
 	private DatasPesquisaVO datas;
-	private Consumo consumo;
+	private ConsumoViewData consumo;
 
 	@GetMapping("/home")
 	public String carregarPagina(Model model, HttpSession session) {
-		Usuario usuarioVO = UsuarioUtils.recuperarDetalhesUsuario(session);
-		IntervaloDatasVO intervalo = DataUtils.obterIntervaloUltimosTrintaDias();
+		UsuarioDTO usuario = UsuarioUtils.recuperarDetalhesUsuario(session);
+		IntervaloDTO intervalo = DataUtils.obterIntervaloUltimosTrintaDias();
 		this.datas = datasAdapter.converterIntervaloDatasVoParaDatasPesquisaVo(intervalo);
 
-		ConsumoFacade consumoFacade = new ConsumoFacade(intervalo, usuarioVO.getMeta());
+		ConsumoFacade consumoFacade = new ConsumoFacade(intervalo, usuario.getMeta());
 		consumo = consumoFacade.obterDados();
-		popularAtributos(model, consumo);
+		popularAtributos(model);
 
 		return "consulta";
 	}
 
 	@PostMapping("/home")
-	public String buscar(Model model, HttpSession session, DatasPesquisaVO datas) {
+	public String buscar(Model model, HttpSession session, DatasPesquisaVO datas) throws ParseException {
 		this.datas = datas;
-		Usuario usuarioVO = UsuarioUtils.recuperarDetalhesUsuario(session);
-		IntervaloDatasVO intervalo = datasAdapter.converterDatasPesquisaVoParaIntervaloDatasVo(datas);
+		UsuarioDTO usuario = UsuarioUtils.recuperarDetalhesUsuario(session);
+		IntervaloDTO intervalo = datasAdapter.converterDatasPesquisaVoParaIntervaloDatasVo(datas);
 
-		ConsumoFacade consumoFacade = new ConsumoFacade(intervalo, usuarioVO.getMeta());
+		ConsumoFacade consumoFacade = new ConsumoFacade(intervalo, usuario.getMeta());
 		consumo = consumoFacade.obterDados();
-		popularAtributos(model, consumo);
+		popularAtributos(model);
 
 		return "consulta";
 	}
 
-	private void popularAtributos(Model model, Consumo consumo) {
+	private void popularAtributos(Model model) {
 		model.addAttribute(ATRIBUTO_DADOS_GRAFICO_CONSUMO, consumo.getDadosConsumo());
 		model.addAttribute(ATRIBUTO_DADOS_GRAFICO_USO, consumo.getDadosUso());
 		model.addAttribute(ATRIBUTO_DADOS_RELATORIO, consumo.getRelatorio());
@@ -75,8 +77,8 @@ public class ConsultaController {
 
 	@GetMapping("/download")
 	public HttpEntity<byte[]> downloadRelatorio(HttpSession session) {
-		Usuario usuarioVO = UsuarioUtils.recuperarDetalhesUsuario(session);
-		DownloadRelatorioHelper relatorioHelper = new DownloadRelatorioHelper(datas, usuarioVO.getMeta(),
+		UsuarioDTO usuario = UsuarioUtils.recuperarDetalhesUsuario(session);
+		DownloadRelatorioHelper relatorioHelper = new DownloadRelatorioHelper(datas, usuario.getMeta(),
 				consumo.getConsumoPeriodo());
 		return relatorioHelper.obterRelatorio();
 	}

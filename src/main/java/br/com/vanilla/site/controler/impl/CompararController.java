@@ -1,5 +1,7 @@
 package br.com.vanilla.site.controler.impl;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,9 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import br.com.vanilla.site.entity.DatasPeriodoComparacao;
 import br.com.vanilla.site.entity.DatasPesquisaVO;
-import br.com.vanilla.site.entity.IntervaloDatasVO;
+import br.com.vanilla.site.entity.IntervaloDTO;
 import br.com.vanilla.site.entity.RelatorioVO;
-import br.com.vanilla.site.entity.Usuario;
 import br.com.vanilla.site.entity.UsuarioDTO;
 import br.com.vanilla.site.model.adapter.DatasAdapter;
 import br.com.vanilla.site.service.ConsumoService;
@@ -43,11 +44,11 @@ public class CompararController {
 	@GetMapping("/comparar")
 	public String carregarPagina(Model model, HttpSession session) {
 		usuario = UsuarioUtils.recuperarDetalhesUsuario(session);
-		IntervaloDatasVO intervalo = new IntervaloDatasVO();
+		IntervaloDTO intervalo = new IntervaloDTO();
 		Long dataAtual = DataUtils.dataAtual();
 		Long trintaDiasAntes = DataUtils.trintaDiasAntes(dataAtual);
-		intervalo.setDataInicial(trintaDiasAntes);
-		intervalo.setDataFinal(dataAtual);
+		intervalo.setInicio(new Date(trintaDiasAntes));
+		intervalo.setFim(new Date(dataAtual));
 
 		consumo = new ConsumoService(intervalo);
 
@@ -79,7 +80,7 @@ public class CompararController {
 	}
 
 	@PostMapping("/comparar")
-	public String buscar(Model model, HttpSession session, DatasPeriodoComparacao datas) {
+	public String buscar(Model model, HttpSession session, DatasPeriodoComparacao datas) throws ParseException {
 		this.datas = datas;
 		usuario = UsuarioUtils.recuperarDetalhesUsuario(session);
 		popularDadosPeriodo1(model);
@@ -87,11 +88,11 @@ public class CompararController {
 		return "comparar";
 	}
 
-	private void popularDadosPeriodo1(Model model) {
+	private void popularDadosPeriodo1(Model model) throws ParseException {
 		DatasPesquisaVO datasPesquisa1 = new DatasPesquisaVO();
 		datasPesquisa1.setDataInicial(datas.getDataInicial1());
 		datasPesquisa1.setDataFinal(datas.getDataFinal1());
-		IntervaloDatasVO intervaloDatas1 = datasAdapter.converterDatasPesquisaVoParaIntervaloDatasVo(datasPesquisa1);
+		IntervaloDTO intervaloDatas1 = datasAdapter.converterDatasPesquisaVoParaIntervaloDatasVo(datasPesquisa1);
 
 		consumo = new ConsumoService(intervaloDatas1);
 
@@ -104,11 +105,11 @@ public class CompararController {
 		model.addAttribute(DADOS_RELATORIO + 1, dadosRelatorio1);
 	}
 
-	private void popularDadosPeriodo2(Model model) {
+	private void popularDadosPeriodo2(Model model) throws ParseException {
 		DatasPesquisaVO datasPesquisa2 = new DatasPesquisaVO();
 		datasPesquisa2.setDataInicial(datas.getDataInicial2());
 		datasPesquisa2.setDataFinal(datas.getDataFinal2());
-		IntervaloDatasVO intervaloDatas2 = datasAdapter.converterDatasPesquisaVoParaIntervaloDatasVo(datasPesquisa2);
+		IntervaloDTO intervaloDatas2 = datasAdapter.converterDatasPesquisaVoParaIntervaloDatasVo(datasPesquisa2);
 
 		consumo = new ConsumoService(intervaloDatas2);
 		dadosGraficoConsumo2 = consumo.obterDadosConsumo();

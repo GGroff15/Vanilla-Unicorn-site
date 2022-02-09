@@ -12,21 +12,21 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.lowagie.text.DocumentException;
 
-import br.com.vanilla.site.entity.ConsumoVO;
+import br.com.vanilla.site.entity.LeituraDTO;
 import br.com.vanilla.site.entity.RelatorioVO;
 import br.com.vanilla.site.service.ImpressaoService;
 import br.com.vanilla.site.utils.RelatorioUtils;
 
 public class ArquivoPDF extends ImpressaoService {
 
-	protected ArquivoPDF(String dataInicial, String dataFinal, List<ConsumoVO> consumo, int meta) {
+	protected ArquivoPDF(String dataInicial, String dataFinal, List<LeituraDTO> consumo, int meta) {
 		super(dataInicial, dataFinal, "pdf");
 		super.leituras = consumo;
 		super.meta = meta;
 	}
 
 	@Override
-	public void gerarArquivo(List<ConsumoVO> consumo, int meta) {
+	public void gerarArquivo(List<LeituraDTO> consumo, int meta) {
 
 		List<RelatorioVO> dadosRelatorio = RelatorioUtils.converterDadosRelatorio(consumo, meta);
 

@@ -2,9 +2,9 @@ package br.com.vanilla.site.service.facade;
 
 import java.util.List;
 
-import br.com.vanilla.site.entity.Consumo;
-import br.com.vanilla.site.entity.ConsumoVO;
-import br.com.vanilla.site.entity.IntervaloDatasVO;
+import br.com.vanilla.site.entity.ConsumoViewData;
+import br.com.vanilla.site.entity.IntervaloDTO;
+import br.com.vanilla.site.entity.LeituraDTO;
 import br.com.vanilla.site.entity.RelatorioVO;
 import br.com.vanilla.site.service.ConsumoService;
 
@@ -13,13 +13,14 @@ public class ConsumoFacade {
 	private ConsumoService consumoService;
 	private int meta;
 
-	public ConsumoFacade(IntervaloDatasVO intervaloDatasVO, int meta) {
+	public ConsumoFacade(IntervaloDTO intervalo, int meta) {
 		this.meta = meta;
-		consumoService = new ConsumoService(intervaloDatasVO);
+		consumoService = new ConsumoService(intervalo);
 	}
 
-	public Consumo obterDados() {
-		Consumo consumo = new Consumo();
+	public ConsumoViewData obterDados() {
+
+		ConsumoViewData consumo = new ConsumoViewData();
 
 		double consumoEnergiaPeriodo = consumoService.consumoEnergiaPeriodo();
 		consumo.setEnergia(consumoEnergiaPeriodo);
@@ -42,7 +43,7 @@ public class ConsumoFacade {
 		double consumoAgua = consumoService.obterTotalConsumoAgua();
 		consumo.setAgua(consumoAgua);
 
-		List<ConsumoVO> consumoPeriodo = consumoService.getConsumoPeriodo();
+		List<LeituraDTO> consumoPeriodo = consumoService.getConsumoPeriodo();
 		consumo.setConsumoPeriodo(consumoPeriodo);
 
 		return consumo;

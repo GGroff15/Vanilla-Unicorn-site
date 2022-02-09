@@ -1,15 +1,14 @@
 package br.com.vanilla.site.model.adapter;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
 import br.com.vanilla.site.entity.DatasPesquisaVO;
-import br.com.vanilla.site.entity.IntervaloDatasVO;
-import br.com.vanilla.site.utils.DataUtils;
+import br.com.vanilla.site.entity.IntervaloDTO;
 
 /**
  * Metodos de conversao da classe VO DatasPesquisaVO para IntervaloDatasVO e
@@ -21,31 +20,23 @@ import br.com.vanilla.site.utils.DataUtils;
 @Component
 public class DatasAdapter {
 
-	public IntervaloDatasVO converterDatasPesquisaVoParaIntervaloDatasVo(DatasPesquisaVO datasPesquisa) {
+	DateFormat dateFormat;
 
-		IntervaloDatasVO intervaloDatasVO = new IntervaloDatasVO();
-
-		intervaloDatasVO.setDataInicial(DataUtils.converterStringParaLong(datasPesquisa.getDataInicial()));
-		intervaloDatasVO.setDataFinal(DataUtils.converterStringParaLong(datasPesquisa.getDataFinal()));
-
-		return intervaloDatasVO;
+	public DatasAdapter() {
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	}
 
-	public DatasPesquisaVO converterIntervaloDatasVoParaDatasPesquisaVo(IntervaloDatasVO datasPesquisa) {
-		DatasPesquisaVO datasPesquisaVO = new DatasPesquisaVO();
+	public IntervaloDTO converterDatasPesquisaVoParaIntervaloDatasVo(DatasPesquisaVO datasPesquisa)
+			throws ParseException {
+		Date inicio = dateFormat.parse(datasPesquisa.getDataInicial());
+		Date fim = dateFormat.parse(datasPesquisa.getDataFinal());
+		return new IntervaloDTO(inicio, fim);
+	}
 
-		Calendar calendar = Calendar.getInstance();
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-		calendar.setTimeInMillis(datasPesquisa.getDataInicial());
-		Date dateInicial = calendar.getTime();
-		datasPesquisaVO.setDataInicial(dateFormat.format(dateInicial));
-
-		calendar.setTimeInMillis(datasPesquisa.getDataFinal());
-		Date dateFinal = calendar.getTime();
-		datasPesquisaVO.setDataFinal(dateFormat.format(dateFinal));
-
-		return datasPesquisaVO;
+	public DatasPesquisaVO converterIntervaloDatasVoParaDatasPesquisaVo(IntervaloDTO intervalo) {
+		String dataInicial = dateFormat.format(intervalo.getInicio());
+		String dataFinal = dateFormat.format(intervalo.getFim());
+		return new DatasPesquisaVO(dataInicial, dataFinal);
 	}
 
 }

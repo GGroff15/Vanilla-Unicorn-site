@@ -2,15 +2,15 @@ package br.com.vanilla.site.entity;
 
 public class FiltroRelatorio {
 
-	private IntervaloDatasVO intervaloDatasVO = new IntervaloDatasVO();
+	private IntervaloDTO intervalo = new IntervaloDTO();
 	private String username;
 
-	public IntervaloDatasVO getIntervaloDatasVO() {
-		return intervaloDatasVO;
+	public IntervaloDTO getIntervaloDatasVO() {
+		return intervalo;
 	}
 
-	public void setIntervaloDatasVO(IntervaloDatasVO intervaloDatasVO) {
-		this.intervaloDatasVO = intervaloDatasVO;
+	public void setIntervaloDatasVO(IntervaloDTO intervalo) {
+		this.intervalo = intervalo;
 	}
 
 	public String getUsername() {

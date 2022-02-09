@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import br.com.vanilla.site.entity.Usuario;
 import br.com.vanilla.site.entity.UsuarioDTO;
 import br.com.vanilla.site.service.CadastroService;
 
@@ -24,7 +23,7 @@ public class ConfiguracaoController {
 	@GetMapping("/configuracao")
 	public String carregarPagina(Model model, HttpSession session) {
 
-		Usuario dadosUsurioLogado = (Usuario) session.getAttribute(ATRIBUTO_DADOS_USUARIO);
+		UsuarioDTO dadosUsurioLogado = (UsuarioDTO) session.getAttribute(ATRIBUTO_DADOS_USUARIO);
 		model.addAttribute("usuario", dadosUsurioLogado);
 
 		return VIEW_CONFIGURACAO;
@@ -33,7 +32,7 @@ public class ConfiguracaoController {
 	@PostMapping("/configuracao")
 	public String salvar(Model model, HttpSession session, UsuarioDTO usuario) {
 
-		Usuario usuarioVO = new Usuario();
+		UsuarioDTO usuarioVO = new UsuarioDTO();
 		usuarioVO.setId(usuario.getId());
 		usuarioVO.setCelular(usuario.getCelular());
 		usuarioVO.setComparar(usuario.isComparar());

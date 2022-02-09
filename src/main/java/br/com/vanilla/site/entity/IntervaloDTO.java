@@ -7,6 +7,14 @@ public class IntervaloDTO {
 	private Date inicio;
 	private Date fim;
 
+	public IntervaloDTO() {
+	}
+
+	public IntervaloDTO(Date inicio, Date fim) {
+		this.inicio = inicio;
+		this.fim = fim;
+	}
+
 	public Date getInicio() {
 		return inicio;
 	}

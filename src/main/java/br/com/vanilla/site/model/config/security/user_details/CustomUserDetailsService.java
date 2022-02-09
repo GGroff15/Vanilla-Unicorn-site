@@ -3,6 +3,7 @@ package br.com.vanilla.site.model.config.security.user_details;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -10,22 +11,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import br.com.vanilla.site.dao.Dao;
-import br.com.vanilla.site.dao.impl.FactoryDao;
-import br.com.vanilla.site.entity.Usuario;
+import br.com.vanilla.site.connector.IntegradorConector;
+import br.com.vanilla.site.entity.UsuarioDTO;
 
 @Service
-@Transactional
 public class CustomUserDetailsService implements UserDetailsService {
 
-	private Dao<Usuario, String> dao = FactoryDao.criarUsuarioDao();
+	@Autowired
+	private IntegradorConector integradorConector;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		Usuario usuario = dao.get(username).get(0);
+		UsuarioDTO usuario = integradorConector.findUserByUsername(username);
 
 		List<String> funcoes = new ArrayList<>();
 		funcoes.add("admin");

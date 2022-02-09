@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 
-import br.com.vanilla.site.entity.ConsumoVO;
 import br.com.vanilla.site.entity.DatasPesquisaVO;
+import br.com.vanilla.site.entity.LeituraDTO;
 import br.com.vanilla.site.entity.Relatorio;
 import br.com.vanilla.site.impressao.ArquivoServiceFactory;
 import br.com.vanilla.site.service.ImpressaoService;
@@ -15,9 +15,9 @@ public class DownloadRelatorioHelper {
 
 	private Relatorio relatorio;
 
-	public DownloadRelatorioHelper(DatasPesquisaVO datas, int meta, List<ConsumoVO> consumo) {
-		ImpressaoService arquivo = ArquivoServiceFactory.createPdf(datas.getDataInicial(), datas.getDataFinal(), consumo,
-				meta);
+	public DownloadRelatorioHelper(DatasPesquisaVO datas, int meta, List<LeituraDTO> consumo) {
+		ImpressaoService arquivo = ArquivoServiceFactory.createPdf(datas.getDataInicial(), datas.getDataFinal(),
+				consumo, meta);
 		relatorio = arquivo.gerar();
 	}
 

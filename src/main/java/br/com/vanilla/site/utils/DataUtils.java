@@ -1,11 +1,10 @@
 package br.com.vanilla.site.utils;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import br.com.vanilla.site.entity.IntervaloDatasVO;
+import br.com.vanilla.site.entity.IntervaloDTO;
 
 public final class DataUtils {
 
@@ -21,17 +20,6 @@ public final class DataUtils {
 
 	public static long trintaDiasAntes(long data) {
 		return data - TRINTA_DIAS_MILISEGUNDOS;
-	}
-
-	public static long converterStringParaLong(String data) {
-		Calendar calendar = Calendar.getInstance();
-		try {
-			Date date = new SimpleDateFormat("yyyy-MM-dd").parse(data);
-			calendar.setTime(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return calendar.getTimeInMillis();
 	}
 
 	public static String formatarData(int dia, int mes, int ano) {
@@ -56,12 +44,12 @@ public final class DataUtils {
 		return new SimpleDateFormat(padrao).format(dateInicial);
 	}
 
-	public static IntervaloDatasVO obterIntervaloUltimosTrintaDias() {
-		IntervaloDatasVO intervalo = new IntervaloDatasVO();
+	public static IntervaloDTO obterIntervaloUltimosTrintaDias() {
+		IntervaloDTO intervalo = new IntervaloDTO();
 		Long dataAtual = DataUtils.dataAtual();
 		Long trintaDiasAntes = DataUtils.trintaDiasAntes(dataAtual);
-		intervalo.setDataInicial(trintaDiasAntes);
-		intervalo.setDataFinal(dataAtual);
+		intervalo.setInicio(new Date(trintaDiasAntes));
+		intervalo.setFim(new Date(dataAtual));
 		return intervalo;
 	}
 
