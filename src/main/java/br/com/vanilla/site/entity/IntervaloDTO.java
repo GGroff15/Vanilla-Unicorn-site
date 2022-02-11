@@ -2,6 +2,9 @@ package br.com.vanilla.site.entity;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class IntervaloDTO {
 
 	private Date inicio;
