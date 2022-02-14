@@ -1,7 +1,5 @@
 package br.com.vanilla.site.model.config.security;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +14,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-import br.com.vanilla.site.connector.IntegradorConector;
-import br.com.vanilla.site.entity.UsuarioDTO;
 import br.com.vanilla.site.model.config.security.handler.CustomAccessDeniedHandler;
 import br.com.vanilla.site.model.config.security.handler.CustomAuthenticationFailureHandler;
 import br.com.vanilla.site.model.config.security.handler.CustomAuthenticationSuccessHandler;
@@ -29,26 +25,11 @@ import br.com.vanilla.site.model.config.security.user_details.CustomUserDetailsS
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	@Autowired
 	private CustomUserDetailsService userDetailsService;
-
-	@Autowired
-	private IntegradorConector integradorConector;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-		List<UsuarioDTO> listaUsuarios = integradorConector.listarUsuarios();
-
-		for (UsuarioDTO usuario : listaUsuarios) {
-			auth.inMemoryAuthentication().passwordEncoder(passwordEncoder).withUser(usuario.getUsername())
-					.password(usuario.getSenha()).authorities("ADMIN");
-		}
-
 		auth.userDetailsService(userDetailsService);
-
 	}
 
 	@Override
