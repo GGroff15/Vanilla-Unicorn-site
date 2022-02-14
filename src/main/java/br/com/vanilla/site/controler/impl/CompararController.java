@@ -42,14 +42,18 @@ public class CompararController {
 	private List<RelatorioVO> dadosRelatorio2;
 
 	private ConsumoService consumo;
-	private DatasAdapter datasAdapter = new DatasAdapter();
+	private DatasAdapter datasAdapter;
 	private UsuarioDTO usuario;
+
+	public CompararController(DatasAdapter datasAdapter, ConsumoService consumo) {
+		this.datasAdapter = datasAdapter;
+		this.consumo = consumo;
+	}
 
 	@GetMapping("/comparar")
 	public ModelAndView carregarPagina(HttpSession session) {
 		usuario = UsuarioUtils.recuperarDetalhesUsuario(session);
 		IntervaloDTO intervalo = DataUtils.obterIntervaloUltimosTrintaDias();
-		consumo = new ConsumoService(intervalo);
 
 		DatasPesquisaVO dataPesquisa = datasAdapter.converterIntervaloDatasVoParaDatasPesquisaVo(intervalo);
 
@@ -59,6 +63,7 @@ public class CompararController {
 		datasPeriodos.setDataFinal1(dataPesquisa.getDataFinal());
 		datasPeriodos.setDataFinal2(dataPesquisa.getDataFinal());
 
+		consumo.setIntervalo(intervalo);
 		obterDadosPeriodo1();
 		obterDadosPeriodo2();
 
@@ -83,7 +88,7 @@ public class CompararController {
 		Date final1 = DataUtils.converter(datas.getDataFinal1());
 
 		IntervaloDTO intervalo1 = new IntervaloDTO(inicial1, final1);
-		consumo = new ConsumoService(intervalo1);
+		consumo.setIntervalo(intervalo1);
 		obterDadosPeriodo1();
 	}
 
@@ -92,7 +97,7 @@ public class CompararController {
 		Date final2 = DataUtils.converter(datas.getDataFinal2());
 
 		IntervaloDTO intervalo2 = new IntervaloDTO(inicial2, final2);
-		consumo = new ConsumoService(intervalo2);
+		consumo.setIntervalo(intervalo2);
 		obterDadosPeriodo2();
 	}
 

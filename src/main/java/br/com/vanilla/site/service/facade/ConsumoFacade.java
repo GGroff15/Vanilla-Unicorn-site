@@ -2,25 +2,28 @@ package br.com.vanilla.site.service.facade;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import br.com.vanilla.site.entity.ConsumoViewData;
 import br.com.vanilla.site.entity.IntervaloDTO;
 import br.com.vanilla.site.entity.LeituraDTO;
 import br.com.vanilla.site.entity.RelatorioVO;
 import br.com.vanilla.site.service.ConsumoService;
 
+@Component
 public class ConsumoFacade {
 
 	private ConsumoService consumoService;
-	private int meta;
+	private ConsumoViewData consumo;
 
-	public ConsumoFacade(IntervaloDTO intervalo, int meta) {
-		this.meta = meta;
-		consumoService = new ConsumoService(intervalo);
+	public ConsumoFacade(ConsumoService consumoService, ConsumoViewData consumo) {
+		this.consumoService = consumoService;
+		this.consumo = consumo;
 	}
 
-	public ConsumoViewData obterDados() {
+	public ConsumoViewData obterDados(IntervaloDTO intervalo, int meta) {
 
-		ConsumoViewData consumo = new ConsumoViewData();
+		consumoService.setIntervalo(intervalo);
 
 		double consumoEnergiaPeriodo = consumoService.consumoEnergiaPeriodo();
 		consumo.setEnergia(consumoEnergiaPeriodo);

@@ -1,6 +1,5 @@
 package br.com.vanilla.site.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +10,11 @@ import br.com.vanilla.site.model.exception.UsuarioJaCadastradoException;
 @Service
 public class CadastroService {
 
-	@Autowired
 	private IntegradorConector integradorConector;
+
+	public CadastroService(IntegradorConector integradorConector) {
+		this.integradorConector = integradorConector;
+	}
 
 	public void cadastrarNovoUsuario(UsuarioDTO novoUsuario) throws UsuarioJaCadastradoException {
 		novoUsuario.setSenha(aplicarCriptografia(novoUsuario.getSenha()));

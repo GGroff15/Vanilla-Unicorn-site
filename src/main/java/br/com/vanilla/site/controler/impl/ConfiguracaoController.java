@@ -2,7 +2,6 @@ package br.com.vanilla.site.controler.impl;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +16,11 @@ public class ConfiguracaoController {
 	private static final String ATRIBUTO_DADOS_USUARIO = "dadosUsuario";
 	private static final String VIEW_CONFIGURACAO = "dados_conta";
 
-	@Autowired
-	CadastroService cadastroService;
+	private CadastroService cadastroService;
+
+	public ConfiguracaoController(CadastroService cadastroService) {
+		this.cadastroService = cadastroService;
+	}
 
 	@GetMapping("/configuracao")
 	public String carregarPagina(Model model, HttpSession session) {

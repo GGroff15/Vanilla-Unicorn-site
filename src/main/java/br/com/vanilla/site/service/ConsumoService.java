@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.vanilla.site.connector.IntegradorConector;
@@ -17,18 +16,22 @@ import br.com.vanilla.site.entity.RelatorioVO;
 
 @Service
 public class ConsumoService {
-	
-	@Autowired
-	private IntegradorConector integradorConector;
 
 	private static final int DIVISOR_PARA_KILO = 1000;
 	private static final int NUMERO_HORAS_DO_DIA = 24;
+
+	private IntegradorConector integradorConector;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	private Calendar calendar = Calendar.getInstance();
 
-	private List<LeituraDTO> leiturasPeriodo = new ArrayList<>();
+	private List<LeituraDTO> leiturasPeriodo;
 
-	public ConsumoService(IntervaloDTO intervalo) {
+	public ConsumoService(IntegradorConector integradorConector, List<LeituraDTO> leiturasPeriodo) {
+		this.integradorConector = integradorConector;
+		this.leiturasPeriodo = leiturasPeriodo;
+	}
+
+	public void setIntervalo(IntervaloDTO intervalo) {
 		leiturasPeriodo = integradorConector.getLeiturasIntervalo(intervalo);
 	}
 
@@ -37,7 +40,8 @@ public class ConsumoService {
 		dadosGrafico.add(Arrays.asList("Data", "Energia (kW)", "Água (L)"));
 		for (LeituraDTO leitura : leiturasPeriodo) {
 			calendar.setTime(leitura.getData());
-			List<Object> coluna = Arrays.asList(getDataConsumo(), calcularKiloWattHora(leitura.getConsumo()), leitura.getConsumo().getAgua());
+			List<Object> coluna = Arrays.asList(getDataConsumo(), calcularKiloWattHora(leitura.getConsumo()),
+					leitura.getConsumo().getAgua());
 			dadosGrafico.add(coluna);
 		}
 		return dadosGrafico;
@@ -109,7 +113,7 @@ public class ConsumoService {
 			calendar.setTime(leitura.getData());
 
 			ConsumoDTO consumo = leitura.getConsumo();
-			
+
 			relatorioVO.setAgua(consumo.getAgua());
 			relatorioVO.setEnergia(consumo.getEnergia() / 24000);
 			relatorioVO.setTempoUso(consumo.getTempoUso());
