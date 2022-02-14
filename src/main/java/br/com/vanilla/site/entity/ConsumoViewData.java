@@ -2,6 +2,9 @@ package br.com.vanilla.site.entity;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ConsumoViewData {
 
 	private double consumoEnergiaPeriodo;
