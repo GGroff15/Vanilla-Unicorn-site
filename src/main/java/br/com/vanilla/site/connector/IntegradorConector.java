@@ -15,11 +15,8 @@ import br.com.vanilla.site.entity.UsuarioDTO;
 @Component
 public class IntegradorConector {
 
-	private RestTemplate restTemplate;
-
-	public IntegradorConector() {
-		restTemplate = new RestTemplate();
-	}
+	private static final String HTTP_LOCALHOST_8081_INTEGRADOR_USER = "http://localhost:8081/integrador/user";
+	private RestTemplate restTemplate = new RestTemplate();
 
 	@SuppressWarnings("unchecked")
 	public List<LeituraDTO> getLeiturasIntervalo(IntervaloDTO intervalo) {
@@ -30,23 +27,18 @@ public class IntegradorConector {
 
 	public void saveUser(UsuarioDTO novoUsuario) {
 		HttpEntity<UsuarioDTO> httpEntity = new HttpEntity<>(novoUsuario);
-		restTemplate.postForEntity("http://localhost:8081/integrador/user", httpEntity, Boolean.class);
+		restTemplate.postForEntity(HTTP_LOCALHOST_8081_INTEGRADOR_USER, httpEntity, Boolean.class);
 	}
 
 	public void atualizarUsuario(UsuarioDTO usuario) {
 		HttpEntity<UsuarioDTO> httpEntity = new HttpEntity<>(usuario);
-		restTemplate.put("http://localhost:8081/integrador/user", httpEntity);
+		restTemplate.put(HTTP_LOCALHOST_8081_INTEGRADOR_USER, httpEntity);
 	}
 
 	public UsuarioDTO findUserByUsername(String username) {
 		ResponseEntity<UsuarioDTO> response = restTemplate
-				.getForEntity("http://localhost:8081/integrador/user/" + username, UsuarioDTO.class);
+				.getForEntity(HTTP_LOCALHOST_8081_INTEGRADOR_USER + "/" + username, UsuarioDTO.class);
 		return response.getBody();
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<UsuarioDTO> listarUsuarios() {
-		return (List<UsuarioDTO>) restTemplate.getForEntity("http://localhost:8081/integrador/user", List.class);
 	}
 
 }
