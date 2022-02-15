@@ -11,17 +11,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.client.RestTemplate;
 
-import br.com.vanilla.site.connector.IntegradorConector;
-import br.com.vanilla.site.controler.impl.CadastroController;
-import br.com.vanilla.site.controler.impl.CompararController;
-import br.com.vanilla.site.controler.impl.ConfiguracaoController;
-import br.com.vanilla.site.controler.impl.ConsultaController;
-import br.com.vanilla.site.entity.ConsumoViewData;
-import br.com.vanilla.site.entity.LeituraDTO;
-import br.com.vanilla.site.model.adapter.DatasAdapter;
-import br.com.vanilla.site.service.CadastroService;
-import br.com.vanilla.site.service.ConsumoService;
-import br.com.vanilla.site.service.facade.ConsumoFacade;
+import br.com.vanilla.site.data.connector.IntegradorConector;
+import br.com.vanilla.site.domain.adapter.DatasAdapter;
+import br.com.vanilla.site.domain.controler.impl.CadastroController;
+import br.com.vanilla.site.domain.controler.impl.CompararController;
+import br.com.vanilla.site.domain.controler.impl.ConfiguracaoController;
+import br.com.vanilla.site.domain.controler.impl.ConsultaController;
+import br.com.vanilla.site.domain.entity.ConsumoViewData;
+import br.com.vanilla.site.domain.entity.LeituraDTO;
+import br.com.vanilla.site.domain.service.CadastroService;
+import br.com.vanilla.site.domain.service.ConsumoService;
+import br.com.vanilla.site.domain.service.facade.ConsumoFacade;
 
 @SpringBootApplication
 public class StartApp {
