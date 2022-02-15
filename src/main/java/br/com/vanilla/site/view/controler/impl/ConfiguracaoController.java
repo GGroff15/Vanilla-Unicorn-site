@@ -1,4 +1,4 @@
-package br.com.vanilla.site.domain.controler.impl;
+package br.com.vanilla.site.view.controler.impl;
 
 import javax.servlet.http.HttpSession;
 

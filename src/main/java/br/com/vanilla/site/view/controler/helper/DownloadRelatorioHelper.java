@@ -1,4 +1,4 @@
-package br.com.vanilla.site.domain.controler.helper;
+package br.com.vanilla.site.view.controler.helper;
 
 import java.util.List;
 

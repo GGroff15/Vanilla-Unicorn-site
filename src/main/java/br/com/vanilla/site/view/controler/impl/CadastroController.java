@@ -1,4 +1,4 @@
-package br.com.vanilla.site.domain.controler.impl;
+package br.com.vanilla.site.view.controler.impl;
 
 import java.util.HashMap;
 import java.util.Map;

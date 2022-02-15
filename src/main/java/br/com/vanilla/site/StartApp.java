@@ -13,15 +13,15 @@ import org.springframework.web.client.RestTemplate;
 
 import br.com.vanilla.site.data.connector.IntegradorConector;
 import br.com.vanilla.site.domain.adapter.DatasAdapter;
-import br.com.vanilla.site.domain.controler.impl.CadastroController;
-import br.com.vanilla.site.domain.controler.impl.CompararController;
-import br.com.vanilla.site.domain.controler.impl.ConfiguracaoController;
-import br.com.vanilla.site.domain.controler.impl.ConsultaController;
 import br.com.vanilla.site.domain.entity.ConsumoViewData;
 import br.com.vanilla.site.domain.entity.LeituraDTO;
 import br.com.vanilla.site.domain.service.CadastroService;
 import br.com.vanilla.site.domain.service.ConsumoService;
 import br.com.vanilla.site.domain.service.facade.ConsumoFacade;
+import br.com.vanilla.site.view.controler.impl.CadastroController;
+import br.com.vanilla.site.view.controler.impl.CompararController;
+import br.com.vanilla.site.view.controler.impl.ConfiguracaoController;
+import br.com.vanilla.site.view.controler.impl.ConsultaController;
 
 @SpringBootApplication
 public class StartApp {

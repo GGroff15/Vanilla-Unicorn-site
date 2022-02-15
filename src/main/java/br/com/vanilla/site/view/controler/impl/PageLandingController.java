@@ -1,14 +1,15 @@
-package br.com.vanilla.site.domain.controler.impl;
+package br.com.vanilla.site.view.controler.impl;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class LoginController {
+public class PageLandingController {
 
-	@GetMapping("/login")
+	@GetMapping("/")
 	public String carregarPagina(Model model) {
-		return "login";
+		return "pageLanding";
 	}
+
 }

@@ -1,4 +1,4 @@
-package br.com.vanilla.site.domain.controler.impl;
+package br.com.vanilla.site.view.controler.impl;
 
 import java.text.ParseException;
 
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.vanilla.site.domain.adapter.DatasAdapter;
-import br.com.vanilla.site.domain.controler.helper.DownloadRelatorioHelper;
 import br.com.vanilla.site.domain.entity.ConsumoViewData;
 import br.com.vanilla.site.domain.entity.DatasPesquisaVO;
 import br.com.vanilla.site.domain.entity.IntervaloDTO;
@@ -21,6 +20,7 @@ import br.com.vanilla.site.domain.entity.UsuarioDTO;
 import br.com.vanilla.site.domain.service.facade.ConsumoFacade;
 import br.com.vanilla.site.domain.utils.DataUtils;
 import br.com.vanilla.site.domain.utils.UsuarioUtils;
+import br.com.vanilla.site.view.controler.helper.DownloadRelatorioHelper;
 
 @Controller
 @Scope("session")
