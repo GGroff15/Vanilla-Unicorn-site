@@ -18,7 +18,7 @@ public class IntegradorConector {
 	private static final String HTTP_LOCALHOST_8081_INTEGRADOR_USER = "http://localhost:8081/integrador/user";
 	private RestTemplate restTemplate = new RestTemplate();
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<LeituraDTO> getLeiturasIntervalo(IntervaloDTO intervalo) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		ResponseEntity<List> response = restTemplate
