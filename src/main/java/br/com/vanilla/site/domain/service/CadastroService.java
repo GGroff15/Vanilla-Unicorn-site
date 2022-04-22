@@ -27,9 +27,17 @@ public class CadastroService {
 	}
 
 	public void emailOuUsernameExiste(UsuarioDTO usuario) throws UsuarioJaCadastradoException {
-		UsuarioDTO userEncontrado = integradorConector.findUserByUsername(usuario.getUsername());
+		UsuarioDTO userEncontrado = pesquisarNomeUsuario(usuario);
 		if (userEncontrado.equals(usuario)) {
 			throw new UsuarioJaCadastradoException("Nome de usuario ou email já cadastrado!");
+		}
+	}
+
+	private UsuarioDTO pesquisarNomeUsuario(UsuarioDTO usuario) {
+		try {
+			return integradorConector.findUserByUsername(usuario.getUsername());
+		} catch (Exception e) {
+			return new UsuarioDTO();
 		}
 	}
 
