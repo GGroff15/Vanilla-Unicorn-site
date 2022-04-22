@@ -20,10 +20,21 @@ public class IntegradorConector {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<LeituraDTO> getLeiturasIntervalo(IntervaloDTO intervalo) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		
+		String uriConsultaLeituraIntervalo = montarUrlConsultaLeituras(intervalo);
 		ResponseEntity<List> response = restTemplate
-				.getForEntity("http://localhost:8081/integrador/leitura/intervalo" + "/" + dateFormat.format(intervalo.getInicio()) + "/" + dateFormat.format(intervalo.getFim()), List.class);
+				.getForEntity(uriConsultaLeituraIntervalo, List.class);
 		return (List<LeituraDTO>) response.getBody();
+	}
+
+	private String montarUrlConsultaLeituras(IntervaloDTO intervalo) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		StringBuilder builder = new StringBuilder();
+		builder.append("http://localhost:8081/integrador/leitura/intervalo/");
+		builder.append(dateFormat.format(intervalo.getInicio()));
+		builder.append("/");
+		builder.append(dateFormat.format(intervalo.getFim()));
+		return builder.toString();
 	}
 
 	public void saveUser(UsuarioDTO novoUsuario) {
