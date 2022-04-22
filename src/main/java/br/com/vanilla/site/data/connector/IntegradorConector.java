@@ -1,9 +1,9 @@
 package br.com.vanilla.site.data.connector;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -20,9 +20,10 @@ public class IntegradorConector {
 
 	@SuppressWarnings("unchecked")
 	public List<LeituraDTO> getLeiturasIntervalo(IntervaloDTO intervalo) {
-		HttpEntity<IntervaloDTO> httpEntity = new HttpEntity<>(intervalo);
-		return (List<LeituraDTO>) restTemplate.exchange("http://localhost:8081/integrador/leitura/intervalo",
-				HttpMethod.GET, httpEntity, List.class);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		ResponseEntity<List> response = restTemplate
+				.getForEntity("http://localhost:8081/integrador/leitura/intervalo" + "/" + dateFormat.format(intervalo.getInicio()) + "/" + dateFormat.format(intervalo.getFim()), List.class);
+		return (List<LeituraDTO>) response.getBody();
 	}
 
 	public void saveUser(UsuarioDTO novoUsuario) {
